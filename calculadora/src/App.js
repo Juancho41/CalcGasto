@@ -1,4 +1,4 @@
-import NavbarCalc from "./components/Navbar";
+import NavbarCalc from "./components/NavbarCalc";
 import BilleGrid from "./components/BilleGrid";
 
 function App() {
@@ -7,7 +7,7 @@ function App() {
   const mockDataBilletera = [
     {
       'id': 1,
-      'nombre': 'BBVA',
+      'nombre': 'Banco',
       'monto': 1234,
       'permiteCredito': true,
       'fechaPagoTarj': 1,

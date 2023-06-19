@@ -1,4 +1,3 @@
-import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/esm/Container';
@@ -25,8 +24,8 @@ function BilleGrid(props) {
                     </Col>
                 ))}
             </Row>
-            <IngresoGasto placement={'start'} handleClose={handleCloseIng} show={showIngreso}/>
-            <IngresoGasto placement={'end'} handleClose={handleCloseGas} show={showGasto}/>
+            <IngresoGasto placement={'start'} handleClose={handleCloseIng} show={showIngreso} titulo={'Ingreso'}/>
+            <IngresoGasto placement={'end'} handleClose={handleCloseGas} show={showGasto} titulo={'Gasto'}/>
         </Container>
 
     );

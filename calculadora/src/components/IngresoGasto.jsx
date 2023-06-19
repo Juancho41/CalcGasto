@@ -1,18 +1,21 @@
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
+import FormGastoIng from './FormGastoIng' 
+
 function IngresoGasto(props) {
 
+  const tipoMovimiento = props.titulo
+  
   return (
     <>
-
+      
       <Offcanvas placement={props.placement} show={props.show} onHide={props.handleClose}>
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+          <Offcanvas.Title>{props.titulo}</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          Some text as placeholder. In real life you can have the elements you
-          have chosen. Like, text, images, lists, etc.
+          <FormGastoIng tipoMovimiento= {tipoMovimiento} />
         </Offcanvas.Body>
       </Offcanvas>
     </>
