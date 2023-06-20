@@ -1,21 +1,24 @@
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
-import FormGastoIng from './FormGastoIng' 
+import FormGastoIng from './FormGastoIng'
 
-function IngresoGasto(props) {
+function IngresoGasto({handleSubmitGasIng, setDate, setMonto, setCategoria, setComentario, setDestino, setOrigen, setCheckbox, titulo, placement, show, handleClose, destino, origen}) {
 
-  const tipoMovimiento = props.titulo
-  
+  const ingreso = titulo == "Ingreso" ? true : false
+  const gasto = titulo == "Gasto" ? true : false
+
   return (
     <>
-      
-      <Offcanvas placement={props.placement} show={props.show} onHide={props.handleClose}>
+
+      <Offcanvas placement={placement} show={show} onHide={handleClose}>
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>{props.titulo}</Offcanvas.Title>
+          <Offcanvas.Title>{titulo}</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <FormGastoIng tipoMovimiento= {tipoMovimiento} />
+          <FormGastoIng ingreso={ingreso} gasto={gasto} setDate={setDate} setCategoria={setCategoria}
+            setCheckbox={setCheckbox} setComentario={setComentario} setDestino={setDestino}
+            setMonto={setMonto} setOrigen={setOrigen} handleSubmitGasIng={handleSubmitGasIng} destino={destino} origen={origen}/>
         </Offcanvas.Body>
       </Offcanvas>
     </>

@@ -3,6 +3,17 @@ import Card from 'react-bootstrap/Card';
 
 function Billetera(props) {
 
+  const handleClickIng = () => {
+    console.log(props.bille.nombre)
+    props.setDestino(props.bille.nombre)
+    props.handleShowIng()
+  }
+  const handleClickGas = () => {
+    console.log(props.bille.nombre)
+    props.setOrigen(props.bille.nombre)
+    props.handleShowGas()
+  }
+
   if (props.bille.permiteCredito) {
     return (
       <Card>
@@ -16,24 +27,24 @@ function Billetera(props) {
           <Card.Text>
             {props.bille.montoCredito}
           </Card.Text>
-          <Button variant="success" onClick={props.handleShowIng}>Ingreso</Button>
-          <Button className="m-2" variant="danger" onClick={props.handleShowGas}>Gasto</Button>
+          <Button variant="success" onClick={handleClickIng}>Ingreso</Button>
+          <Button className="m-2" variant="danger" onClick={handleClickGas}>Gasto</Button>
         </Card.Body>
       </Card>
     );
-  } 
+  }
   return (
     <Card>
-        <Card.Header as="h5">{props.bille.nombre}</Card.Header>
-        <Card.Body>
-          <Card.Title>Monto: </Card.Title>
-          <Card.Text>
-            {props.bille.monto}
-          </Card.Text>
-          <Button variant="success" onClick={props.handleShowIng}>Ingreso</Button>
-          <Button className="m-2" variant="danger" onClick={props.handleShowGas}>Gasto</Button>
-        </Card.Body>
-      </Card>
+      <Card.Header as="h5">{props.bille.nombre}</Card.Header>
+      <Card.Body>
+        <Card.Title>Monto: </Card.Title>
+        <Card.Text>
+          {props.bille.monto}
+        </Card.Text>
+        <Button variant="success" onClick={handleClickIng}>Ingreso</Button>
+        <Button className="m-2" variant="danger" onClick={handleClickGas}>Gasto</Button>
+      </Card.Body>
+    </Card>
   )
 
 }
