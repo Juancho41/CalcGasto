@@ -2,16 +2,24 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
-function NavbarCalc () {
+import { Link } from 'react-router-dom';
+
+function NavbarCalc() {
   return (
     <>
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+          <Navbar.Brand >Calculadora de gastos</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
+            <Link to="/">
+              Resumen
+            </Link>
+            <Link to="/ingresos">
+              Ingresos
+            </Link>
+            <Link to="/gastos">
+              Gastos
+            </Link>
           </Nav>
         </Container>
       </Navbar>
