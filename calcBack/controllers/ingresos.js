@@ -80,7 +80,7 @@ router.get('/:id', ingresoFinder, async (req, res) => {
 router.delete('/:id', ingresoFinder, billeteraFinder, async (req, res) => {
   if (req.ingreso && req.billetera) {
       await req.ingreso.destroy()
-      req.billetera.monto += req.body.monto
+      req.billetera.monto -= req.body.monto
       await req.billetera.save()
 
   }
