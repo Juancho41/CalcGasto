@@ -1,13 +1,12 @@
 const router = require('express').Router()
 const bcrypt = require('bcrypt')
 
-const { User } = require('../models')
-const { Note } = require('../models')
+const { User, Billetera } = require('../models')
 
 router.get('/', async (req, res) => {
   const users = await User.findAll({
     include: {
-      model: Note,
+      model: Billetera,
       attributes: { exclude: ['userId'] }
     }
   })
@@ -16,14 +15,14 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const { username, name, password } = req.body
+    const { username, email, password } = req.body
 
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(password, saltRounds)
 
     const data = {
       username: username,
-      name: name,
+      email: email,
       passHash: passwordHash
 
     }

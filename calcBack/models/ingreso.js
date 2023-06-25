@@ -16,7 +16,7 @@ Ingreso.init({
   },
   monto: {
     type: DataTypes.FLOAT,
-    defaultValue: 0,
+    allowNull: false,
   },
   categoria: {
     type: DataTypes.TEXT,

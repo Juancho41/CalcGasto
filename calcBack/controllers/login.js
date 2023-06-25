@@ -10,7 +10,7 @@ router.post('/', async (request, response) => {
 
   const user = await User.findOne({
     where: {
-      username: body.username
+      email: body.email
     }
   })
 
@@ -20,7 +20,7 @@ router.post('/', async (request, response) => {
 
   if (!(user && passwordCorrect)) {
     return response.status(401).json({
-      error: 'invalid username or password'
+      error: 'invalid email or password'
     })
   }
 
@@ -33,7 +33,7 @@ router.post('/', async (request, response) => {
 
   response
     .status(200)
-    .send({ token, username: user.username, name: user.name })
+    .send({ token, username: user.username })
 })
 
 module.exports = router
