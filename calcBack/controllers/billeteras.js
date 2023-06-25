@@ -70,14 +70,16 @@ router.delete('/:id', billeteraFinder, async (req, res) => {
   res.status(204).end()
 })
 
-// router.put('/:id', billeteraFinder, async (req, res) => {
-//   if (req.billetera) {
-//     req.billetera.important = req.body.important
-//     await req.note.save()
-//     res.json(req.note)
-//   } else {
-//     res.status(404).end()
-//   }
-// })
+router.put('/:id', billeteraFinder, async (req, res) => {
+  if (req.billetera) {
+    req.billetera.nombre = req.body.nombre
+    req.billetera.permitCredit = req.body.permitCredit
+    req.billetera.numDiaPagoTarj = req.body.numDiaPagoTarj
+    await req.billetera.save()
+    res.json(req.billetera)
+  } else {
+    res.status(404).end()
+  }
+})
 
 module.exports = router

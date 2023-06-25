@@ -13,11 +13,11 @@ const tokenExtractor = (req, res, next) => {
     try {
       req.decodedToken = jwt.verify(authorization.substring(7), SECRET)
 
-    } catch{
+    } catch {
 
       return res.status(401).json({ error: 'token invalid' })
     }
-  }  else {
+  } else {
     return res.status(401).json({ error: 'token missing' })
   }
   next()
@@ -38,20 +38,28 @@ router.get('/', tokenExtractor, async (req, res) => {
   res.json(ingresos)
 })
 
+const billeteraFinder = async (req, res, next) => {
+  req.billetera = await Billetera.findByPk(req.body.billeteraId)
+  next()
+}
 
-router.post('/', tokenExtractor, async (req, res) => {
+
+router.post('/', tokenExtractor, billeteraFinder, async (req, res) => {
   try {
 
     const user = await User.findByPk(req.decodedToken.id)
 
-    const ingreso = await Ingreso.create({...req.body, userId: user.id})
+    const ingreso = await Ingreso.create({ ...req.body, userId: user.id })
 
-    const billetera = await Billetera.findByPk(req.body.billeteraId)
-    billetera.monto += req.body.monto
-    await billetera.save()
-    
+    if (req.billetera) {
+      req.billetera.monto += req.body.monto
+      await req.billetera.save()
+    } else {
+      res.status(404).end()
+    }
+
     res.json(ingreso)
-  } catch(error) {
+  } catch (error) {
     return res.status(400).json({ error: error })
   }
 })
@@ -69,21 +77,47 @@ router.get('/:id', ingresoFinder, async (req, res) => {
   }
 })
 
-router.delete('/:id', ingresoFinder, async (req, res) => {
-  if (req.ingreso) {
-    await req.ingreso.destroy()
+router.delete('/:id', ingresoFinder, billeteraFinder, async (req, res) => {
+  if (req.ingreso && req.billetera) {
+      await req.ingreso.destroy()
+      req.billetera.monto += req.body.monto
+      await req.billetera.save()
+
   }
   res.status(204).end()
 })
 
-// router.put('/:id', billeteraFinder, async (req, res) => {
-//   if (req.billetera) {
-//     req.billetera.important = req.body.important
-//     await req.note.save()
-//     res.json(req.note)
-//   } else {
-//     res.status(404).end()
-//   }
-// })
+router.put('/:id', ingresoFinder, billeteraFinder, async (req, res) => {
+  if (req.ingreso && req.billetera) {
+
+    req.ingreso.date = req.body.date
+    req.ingreso.categoria = req.body.categoria
+    req.ingreso.comentario = req.body.comentario
+
+    if (req.ingreso.monto != req.body.monto) {
+      req.ingreso.monto = req.body.monto
+      req.billetera -= req.ingreso.monto - req.body.monto
+      await req.billetera.save()
+    }
+
+    if (req.ingreso.billeteraId != req.body.billeteraId) {
+      req.billetera.monto += req.body.monto
+      await req.billetera.save()
+
+      billeteraAnterior = await Billetera.findByPk(req.ingreso.billeteraId)
+      billeteraAnterior.monto -= req.body.monto
+      await billeteraAnterior.save()
+
+      req.ingreso.billeteraId = req.body.billeteraId
+
+    }
+
+    await req.egreso.save()
+    res.json(req.egreso)
+  } else {
+    res.status(404).end()
+  }
+})
+
 
 module.exports = router
