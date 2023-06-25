@@ -5,12 +5,21 @@ const cors = require('cors')
 const { PORT } = require('./util/config')
 const { connectToDatabase } = require('./util/db')
 
+const usersRouter = require('./controllers/users')
+const loginRouter = require('./controllers/login')
+const billeterasRouter = require('./controllers/billeteras')
+const ingresosRouter = require('./controllers/ingresos')
+const egresosRouter = require('./controllers/egresos')
 
 
 app.use(cors())
 app.use(express.json())
 
-
+app.use('/api/users', usersRouter)
+app.use('/api/login', loginRouter)
+app.use('/api/billeteras', billeterasRouter)
+app.use('/api/ingresos', ingresosRouter)
+app.use('/api/egresos', egresosRouter)
 
 const start = async () => {
   await connectToDatabase()

@@ -6,6 +6,12 @@ const User = require('./user')
 User.hasMany(Billetera)
 Billetera.belongsTo(User)
 
+User.hasMany(Ingreso)
+Ingreso.belongsTo(User)
+
+User.hasMany(Egreso)
+Egreso.belongsTo(User)
+
 Billetera.hasMany(Ingreso)
 Ingreso.belongsTo(Billetera)
 
