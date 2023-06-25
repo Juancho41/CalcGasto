@@ -21,21 +21,19 @@ function NavbarCalc({ usuario, setUsuario }) {
       <Container>
         <Navbar.Brand>Calculadora de gastos</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
-            <Link to="/" style={linkStyle}>
-              Resumen
-
-            </Link>
-            <Link to="/ingresos" style={linkStyle}>
-              Ingresos
-            </Link>
-            <Link to="/gastos" style={linkStyle}>
-              Gastos
-            </Link>
-          </Nav>
-
-          {usuario &&
+        {usuario &&
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="me-auto">
+              <Link to="/" style={linkStyle}>
+                Resumen
+              </Link>
+              <Link to="/ingresos" style={linkStyle}>
+                Ingresos
+              </Link>
+              <Link to="/gastos" style={linkStyle}>
+                Gastos
+              </Link>
+            </Nav>
             <Nav>
               <div style={linkStyle}>
                 Hola {usuario.username}!
@@ -44,9 +42,8 @@ function NavbarCalc({ usuario, setUsuario }) {
                 Log Out
               </Link>
             </Nav>
-          }
-
-        </Navbar.Collapse>
+          </Navbar.Collapse>
+        }
       </Container>
     </Navbar>
   );

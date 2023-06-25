@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 
 import { useState } from 'react';
 
-function FormGastoIng({handleSubmitGasIng, setDate, setMonto, setCategoria, setComentario, setDestino, setOrigen, setCheckbox, ingreso, gasto, destino, origen}) {
+function FormGastoIng({handleSubmitGasIng, billetera, setDate, setMonto, setCategoria, setComentario, setDestino, setOrigen, setCheckbox, ingreso, gasto, destino, origen}) {
   
 
   const handleDateChange = (event) => {
@@ -29,7 +29,7 @@ function FormGastoIng({handleSubmitGasIng, setDate, setMonto, setCategoria, setC
   }
 
   return (
-    <Form onSubmit={handleSubmitGasIng}>
+    <Form onSubmit={() => handleSubmitGasIng()}>
       <Form.Group className="mb-3" controlId="formBasicDate">
         <Form.Label>Fecha:</Form.Label>
         <Form.Control onChange={handleDateChange} type="date" placeholder="Enter date" />

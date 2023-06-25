@@ -98,12 +98,14 @@ function App() {
     }
   ]
   const mockDataUser = {
-      'id': 1,
-      'username': 'Aririta',
-      'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFyaXJpdGEiLCJpZCI6MSwiaWF0IjoxNjg3NjUxOTkxfQ.KltSb1F977kylXcKCXckjdwnoebNVfXygQxe_fVWCpk'
-    }
-  
+    'id': 1,
+    'username': 'Aririta',
+    'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFyaXJpdGEiLCJpZCI6MSwiaWF0IjoxNjg3NjUxOTkxfQ.KltSb1F977kylXcKCXckjdwnoebNVfXygQxe_fVWCpk'
+  }
 
+  const [billeterasUsuario, setBilleterasUsuario] = useState(mockDataBilletera)
+  const [ingresosUsuario, setIngresosUsuario] = useState(mockDataIngresos)
+  const [gastosUsuario, setGastosUsuario] = useState(mockDataGastos)
   const [usuario, setUsuario] = useState(null);
   useEffect(() => {
     setUsuario(mockDataUser)
@@ -112,11 +114,13 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavbarCalc usuario={usuario} setUsuario={setUsuario}/>
+      <NavbarCalc usuario={usuario} setUsuario={setUsuario} />
       <Routes>
-        <Route path="/" element={<Principal mockDataBilletera={mockDataBilletera} usuario={usuario} />} />
+        <Route path="/" element={<Principal billeterasUsuario={billeterasUsuario} 
+        setBilleterasUsuario={setBilleterasUsuario} usuario={usuario}
+          setGastosUsuario={setGastosUsuario} gastosUsuario={gastosUsuario} />} />
         <Route path="/ingresos" element={<ListaIngresos mockDataIngresos={mockDataIngresos} />} />
-        <Route path="/gastos" element={<ListaGastos mockDataGastos={mockDataGastos} />} />
+        <Route path="/gastos" element={<ListaGastos gastosUsuario={gastosUsuario} />} />
         <Route path="/newuser" element={<NewUser />} />
       </Routes>
 

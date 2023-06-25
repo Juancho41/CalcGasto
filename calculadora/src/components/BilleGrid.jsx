@@ -29,9 +29,10 @@ function BilleGrid(props) {
     const handleSubmitGasIng = (event) => {
         event.preventDefault()
         if (destino != null) {
-            props.mockDataBilletera.map(bille => {
+            props.billeterasUsuario.map(bille => {
                 if (bille.nombre == destino) {
                     bille.monto += parseInt(monto)
+
                     setDestino(null)
                     handleCloseIng()
                 }
@@ -39,11 +40,32 @@ function BilleGrid(props) {
 
         }
         if (origen != null) {
-            props.mockDataBilletera.map(bille => {
+            props.billeterasUsuario.map(bille => {
 
                 if (bille.nombre == origen) {
                     if (bille.permiteCredito == true && checkbox) {
-                        bille.montoCredito += parseInt(monto)
+                        const nuevaBilletera = {
+                            ...bille,
+                            'monto': bille.montoCredito + parseInt(monto)
+                        }
+                        //console.log(id)
+                        //props.setBilleterasUsuario(props.billeterasUsuario.map(bille => bille.id !== id ? bille : nuevaBilletera))
+
+                        const nuevoGasto = {
+                            'id': props.gastosUsuario.length + 1,
+                            'fecha': new Date(),
+                            'monto': monto,
+                            'categoria': categoria,
+                            'comentario': comentario,
+                            'origen': origen,
+                            'credito': checkbox
+                        }
+                        props.setGastosUsuario(props.gastosUsuario.concat(nuevoGasto))
+
+                        setDate(null)
+                        setMonto(0)
+                        setCategoria('')
+                        setComentario('')
                         setOrigen(null)
                         setCheckbox(false)
                         handleCloseGas()
@@ -95,20 +117,27 @@ function BilleGrid(props) {
                     setCheckboxAddB={setCheckboxAddB} checkboxAddB={checkboxAddB} handleGuardarBilletera={handleGuardarBilletera} />
             </Row>
             <Row xs={1} md={2} className='mt-2 g-4' >
-                {props.mockDataBilletera.map((billetera) => (
-                    <Col key={billetera.id}>
-                        <Billetera bille={billetera} setDestino={setDestino} setOrigen={setOrigen} handleShowIng={handleShowIng} handleShowGas={handleShowGas} />
-                    </Col>
+                {props.billeterasUsuario.map((billetera) => (
+                    <div key={billetera.id}>
+                        <Col >
+                            <Billetera bille={billetera} setDestino={setDestino} setOrigen={setOrigen} handleShowIng={handleShowIng} handleShowGas={handleShowGas} />
+                        </Col>
+                        <IngresoGasto placement={'start'} handleClose={handleCloseIng} show={showIngreso}
+                            titulo={'Ingreso'} setDate={setDate} setCategoria={setCategoria} setCheckbox={setCheckbox}
+                            setComentario={setComentario} setDestino={setDestino} setMonto={setMonto} billetera={billetera}
+                            setOrigen={setOrigen} handleSubmitGasIng={handleSubmitGasIng} destino={destino} />
+                        <IngresoGasto placement={'end'} handleClose={handleCloseGas} show={showGasto} titulo={'Gasto'}
+                            setDate={setDate} setCategoria={setCategoria} setCheckbox={setCheckbox} billetera={billetera}
+                            setComentario={setComentario} setDestino={setDestino} setMonto={setMonto}
+                            setOrigen={setOrigen} handleSubmitGasIng={handleSubmitGasIng} origen={origen} />
+                    </div>
+
+
                 ))}
+
+
             </Row>
-            <IngresoGasto placement={'start'} handleClose={handleCloseIng} show={showIngreso}
-                titulo={'Ingreso'} setDate={setDate} setCategoria={setCategoria} setCheckbox={setCheckbox}
-                setComentario={setComentario} setDestino={setDestino} setMonto={setMonto}
-                setOrigen={setOrigen} handleSubmitGasIng={handleSubmitGasIng} destino={destino} />
-            <IngresoGasto placement={'end'} handleClose={handleCloseGas} show={showGasto} titulo={'Gasto'}
-                setDate={setDate} setCategoria={setCategoria} setCheckbox={setCheckbox}
-                setComentario={setComentario} setDestino={setDestino} setMonto={setMonto}
-                setOrigen={setOrigen} handleSubmitGasIng={handleSubmitGasIng} origen={origen} />
+
 
         </Container>
 

@@ -1,7 +1,7 @@
 import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/esm/Container';
 
-function ListaGastos({ mockDataGastos }) {
+function ListaGastos({ gastosUsuario }) {
     return (
         <Container className='mt-5'>
             <Table striped bordered hover variant='dark'>
@@ -16,7 +16,7 @@ function ListaGastos({ mockDataGastos }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {mockDataGastos.map((gasto) => {
+                    {gastosUsuario.map((gasto) => {
                         return (
                             <tr>
                                 <td>{gasto.fecha.toLocaleDateString('en-GB')}</td>
