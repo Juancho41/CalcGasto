@@ -4,26 +4,51 @@ import Navbar from 'react-bootstrap/Navbar';
 
 import { Link } from 'react-router-dom';
 
-function NavbarCalc() {
+
+function NavbarCalc({ usuario, setUsuario }) {
+
+  const linkStyle = {
+    fontSize: "15px",
+    color: "grey",
+    padding: "10px",
+    textDecoration: "none",
+  }
+
+  console.log(usuario)
+
   return (
-    <>
-      <Navbar bg="dark" variant="dark">
-        <Container>
-          <Navbar.Brand >Calculadora de gastos</Navbar.Brand>
+    <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary" bg="dark" data-bs-theme="dark">
+      <Container>
+        <Navbar.Brand>Calculadora de gastos</Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Link to="/">
+            <Link to="/" style={linkStyle}>
               Resumen
+
             </Link>
-            <Link to="/ingresos">
+            <Link to="/ingresos" style={linkStyle}>
               Ingresos
             </Link>
-            <Link to="/gastos">
+            <Link to="/gastos" style={linkStyle}>
               Gastos
             </Link>
           </Nav>
-        </Container>
-      </Navbar>
-    </>
+
+          {usuario &&
+            <Nav>
+              <div style={linkStyle}>
+                Hola {usuario.username}!
+              </div>
+              <Link onClick={() => setUsuario(null)} style={linkStyle}>
+                Log Out
+              </Link>
+            </Nav>
+          }
+
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
 
