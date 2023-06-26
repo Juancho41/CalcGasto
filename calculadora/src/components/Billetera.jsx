@@ -6,10 +6,12 @@ function Billetera(props) {
   const handleClickIng = () => {
     console.log(props.bille.nombre)
     props.setDestino(props.bille.nombre)
+    props.setIdBilletera(props.bille.id)
     props.handleShowIng()
   }
   const handleClickGas = () => {
     console.log(props.bille.nombre)
+    props.setIdBilletera(props.bille.id)
     props.setOrigen(props.bille.nombre)
     props.handleShowGas()
   }
