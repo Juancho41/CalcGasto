@@ -116,10 +116,11 @@ function App() {
     <BrowserRouter>
       <NavbarCalc usuario={usuario} setUsuario={setUsuario} />
       <Routes>
-        <Route path="/" element={<Principal billeterasUsuario={billeterasUsuario} 
-        setBilleterasUsuario={setBilleterasUsuario} usuario={usuario}
-          setGastosUsuario={setGastosUsuario} gastosUsuario={gastosUsuario} />} />
-        <Route path="/ingresos" element={<ListaIngresos mockDataIngresos={mockDataIngresos} />} />
+        <Route path="/" element={<Principal billeterasUsuario={billeterasUsuario}
+          setBilleterasUsuario={setBilleterasUsuario} usuario={usuario}
+          setGastosUsuario={setGastosUsuario} gastosUsuario={gastosUsuario}
+          ingresosUsuario={ingresosUsuario} setIngresosUsuario={setIngresosUsuario} />} />
+        <Route path="/ingresos" element={<ListaIngresos ingresosUsuario={ingresosUsuario} />} />
         <Route path="/gastos" element={<ListaGastos gastosUsuario={gastosUsuario} />} />
         <Route path="/newuser" element={<NewUser />} />
       </Routes>

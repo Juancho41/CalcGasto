@@ -3,10 +3,19 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
-function AddBilletera({ handleCloseAddB, handleShowAddB, showAddBilletera, setCheckboxAddB, checkboxAddB, handleGuardarBilletera }) {
+function AddBilletera({ handleCloseAddB, handleShowAddB, showAddBilletera, setCheckboxAddB, checkboxAddB, handleGuardarBilletera, setNombreBilletera, setDiaPagoCredito }) {
 
     const handleCheckboxChangeAddB = (event) => {
         setCheckboxAddB(event.target.checked)
+    }
+    const handleNombreChange = (event) => {
+        setNombreBilletera(event.target.value)
+    }
+    const handleDateChange = (event) => {
+        const day = new Date(event.target.value)
+        setDiaPagoCredito(day.getDate('en-GB'))
+        console.log(day)
+        console.log(event.target.value)
     }
 
     return (
@@ -27,6 +36,7 @@ function AddBilletera({ handleCloseAddB, handleShowAddB, showAddBilletera, setCh
                                 type="text"
                                 placeholder="Nombre de la nueva billetera"
                                 autoFocus
+                                onChange={handleNombreChange}
                             />
                         </Form.Group>
 
@@ -39,6 +49,7 @@ function AddBilletera({ handleCloseAddB, handleShowAddB, showAddBilletera, setCh
                                 <Form.Label>Fecha de próximo cierre</Form.Label>
                                 <Form.Control
                                     type="date"
+                                    onChange={handleDateChange}
                                 />
                             </Form.Group>
                         }
