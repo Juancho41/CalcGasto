@@ -7,6 +7,8 @@ import NewUser from "./components/NewUser";
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import userService from './services/users'
+
 
 function App() {
 
@@ -107,8 +109,15 @@ function App() {
   const [ingresosUsuario, setIngresosUsuario] = useState(mockDataIngresos)
   const [gastosUsuario, setGastosUsuario] = useState(mockDataGastos)
   const [usuario, setUsuario] = useState(null);
+  
+
   useEffect(() => {
-    setUsuario(mockDataUser)
+    const loggedUserJSON = window.localStorage.getItem('usuarioCalc')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUsuario(user)
+      
+    }
   }, [])
 
 
@@ -117,7 +126,7 @@ function App() {
       <NavbarCalc usuario={usuario} setUsuario={setUsuario} />
       <Routes>
         <Route path="/" element={<Principal billeterasUsuario={billeterasUsuario}
-          setBilleterasUsuario={setBilleterasUsuario} usuario={usuario}
+          setBilleterasUsuario={setBilleterasUsuario} usuario={usuario} setUsuario={setUsuario}
           setGastosUsuario={setGastosUsuario} gastosUsuario={gastosUsuario}
           ingresosUsuario={ingresosUsuario} setIngresosUsuario={setIngresosUsuario} />} />
         <Route path="/ingresos" element={<ListaIngresos ingresosUsuario={ingresosUsuario} />} />

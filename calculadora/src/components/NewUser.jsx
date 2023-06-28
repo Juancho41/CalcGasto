@@ -6,6 +6,8 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/esm/Container';
 
+import userService from '../services/users'
+
 function NewUser() {
     const [validated, setValidated] = useState(false);
 
@@ -17,6 +19,8 @@ function NewUser() {
         }
 
         setValidated(true);
+
+        
     };
 
     return (
