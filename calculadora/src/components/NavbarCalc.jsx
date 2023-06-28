@@ -14,7 +14,12 @@ function NavbarCalc({ usuario, setUsuario }) {
     textDecoration: "none",
   }
 
-  console.log(usuario)
+  const logOutUser = () => {
+    window.localStorage.clear()
+    setUsuario(null)
+  }
+
+  
 
   return (
     <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary" bg="dark" data-bs-theme="dark">
@@ -38,7 +43,7 @@ function NavbarCalc({ usuario, setUsuario }) {
               <div style={linkStyle}>
                 Hola {usuario.username}!
               </div>
-              <Link onClick={() => setUsuario(null)} style={linkStyle}>
+              <Link onClick={logOutUser} style={linkStyle}>
                 Log Out
               </Link>
             </Nav>

@@ -1,7 +1,7 @@
 import BilleGrid from "./BilleGrid";
 import Login from "./Login";
 
-function Principal ( {billeterasUsuario, usuario, setGastosUsuario, gastosUsuario, setBilleterasUsuario, ingresosUsuario, setIngresosUsuario}) {
+function Principal ( {setUsuario, billeterasUsuario, usuario, setGastosUsuario, gastosUsuario, setBilleterasUsuario, ingresosUsuario, setIngresosUsuario}) {
 
     if (usuario) {
         return (
@@ -9,7 +9,7 @@ function Principal ( {billeterasUsuario, usuario, setGastosUsuario, gastosUsuari
         )
     } else {
         return (
-            <Login/>
+            <Login setUsuario={setUsuario} />
         )
     }
 }
