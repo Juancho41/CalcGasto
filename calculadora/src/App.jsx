@@ -129,8 +129,8 @@ function App() {
           setBilleterasUsuario={setBilleterasUsuario} usuario={usuario} setUsuario={setUsuario}
           setGastosUsuario={setGastosUsuario} gastosUsuario={gastosUsuario}
           ingresosUsuario={ingresosUsuario} setIngresosUsuario={setIngresosUsuario} />} />
-        <Route path="/ingresos" element={<ListaIngresos ingresosUsuario={ingresosUsuario} />} />
-        <Route path="/gastos" element={<ListaGastos gastosUsuario={gastosUsuario} />} />
+        <Route path="/ingresos" element={<ListaIngresos ingresosUsuario={ingresosUsuario} setIngresosUsuario={setIngresosUsuario} />} />
+        <Route path="/gastos" element={<ListaGastos gastosUsuario={gastosUsuario} setGastosUsuario={setGastosUsuario}/>} />
         <Route path="/newuser" element={<NewUser />} />
       </Routes>
 
