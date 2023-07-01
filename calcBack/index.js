@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 
+
 const { PORT } = require('./util/config')
 const { connectToDatabase } = require('./util/db')
 
@@ -10,6 +11,8 @@ const loginRouter = require('./controllers/login')
 const billeterasRouter = require('./controllers/billeteras')
 const ingresosRouter = require('./controllers/ingresos')
 const egresosRouter = require('./controllers/egresos')
+
+const job = require('./scheduledFunctions/scheduledFunctions');
 
 
 app.use(cors())

@@ -7,11 +7,12 @@ const connectToDatabase = async () => {
   try {
     await sequelize.authenticate()
     console.log('connected to the database')
+    sequelize.options.logging = false
   } catch (err) {
     console.log('failed to connect to the database')
     return process.exit(1)
   }
-
+  
   return null
 }
 
