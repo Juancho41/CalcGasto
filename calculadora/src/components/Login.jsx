@@ -9,7 +9,7 @@ import { useState } from 'react';
 
 import loginService from '../services/login'
 
-function Login({ setUsuario }) {
+function Login({ setUsuario, setVerLogin }) {
 
     const [email, setEmail] = useState(null)
     const [pass, setPass] = useState(null)
@@ -76,7 +76,7 @@ function Login({ setUsuario }) {
                 <Col></Col>
                 <Col xs={6}>
                     ¿Aún no tenes usuario?
-                    <Link to="/newuser">
+                    <Link onClick={() => setVerLogin(false)}>
                         Crear usuario
                     </Link>
                 </Col>

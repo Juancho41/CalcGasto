@@ -5,23 +5,69 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/esm/Container';
+import { Link } from 'react-router-dom';
+
 
 import userService from '../services/users'
 
-function NewUser() {
+function NewUser({ setUsuario, setVerLogin }) {
+
+    // Validacion del formulario
     const [validated, setValidated] = useState(false);
 
-    const handleSubmit = (event) => {
+    //Onchange del Username
+    const [username, setUsername] = useState(null)
+    const handleUsername = (event) => {
+        setUsername(event.target.value)
+    }
+
+    //Onchange del Email
+    const [email, setEmail] = useState(null)
+    const handleEmail = (event) => {
+        setEmail(event.target.value)
+    }
+
+    //Onchange del Pass
+    const [pass, setPass] = useState(null)
+    const handlePass = (event) => {
+        setPass(event.target.value)
+    }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
         }
-
         setValidated(true);
 
-        
+        const newUser = {
+            'username': username,
+            'email': email,
+            'password': pass
+        }
+
+        try {
+            
+            const createUser = await userService.create(newUser)
+            
+            setUsuario(createUser.data)
+            window.localStorage.setItem(
+                'nuevoUsuarioCalc', JSON.stringify(createUser.data)
+            )
+            setUsername('')
+            setEmail('')
+            setPass('')
+        } catch (exception) {
+            alert(exception)
+
+        }
+
+
     };
+
+
 
     return (
         <Container className='mt-5'>
@@ -35,6 +81,7 @@ function NewUser() {
                                 required
                                 type="text"
                                 placeholder="Username"
+                                onChange={handleUsername}
                             />
                             <Form.Control.Feedback>Username válido!</Form.Control.Feedback>
                         </Form.Group>
@@ -52,6 +99,7 @@ function NewUser() {
                                     type="email"
                                     placeholder="Email"
                                     required
+                                    onChange={handleEmail}
                                 />
                                 <Form.Control.Feedback type="invalid">
                                     Coloque un correo electrónico válido.
@@ -66,7 +114,7 @@ function NewUser() {
                     <Col xs={6}>
                         <Form.Group md="6" controlId="validationCustom03">
                             <Form.Label>Contraseña</Form.Label>
-                            <Form.Control type="password" placeholder="Contraseña" required />
+                            <Form.Control type="password" placeholder="Contraseña" required onChange={handlePass} />
                             <Form.Control.Feedback type="invalid">
                                 La contraseña debe ser válida.
                             </Form.Control.Feedback>
@@ -76,20 +124,27 @@ function NewUser() {
                 </Row>
 
                 <Row className="mb-3">
-                    <Col></Col>
-                    <Col xs={6}>
-                        <Form.Group className="mb-3">
-                            <Form.Check
-                                required
-                                label="Estoy de acuerdo con los términos y condiciones"
-                                feedback="Debes estar de acuerdo apara poder crear el usuario"
-                                feedbackType="invalid"
-                            />
-                        </Form.Group>
-                        <Button type="submit">Crear usuario</Button>
+                <Col></Col>
+                    <Col>
+                        <Button variant="primary" type="submit">
+                            Crear!
+                        </Button>
                     </Col>
                     <Col></Col>
+                    
                 </Row>
+                <Row className="mb-3">
+                <Col></Col>
+                <Col xs={6}>
+                    ¿Ya tenes usuario?
+                    <Link onClick={() => setVerLogin(true)}>
+                        LogIn
+                    </Link>
+                </Col>
+                <Col></Col>
+
+            </Row>
+
             </Form>
 
         </Container>

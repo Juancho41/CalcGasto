@@ -1,5 +1,8 @@
-const router = require('express').Router()
+const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const router = require('express').Router()
+
+const { SECRET } = require('../util/config')
 
 const { User, Billetera } = require('../models')
 
@@ -29,7 +32,21 @@ router.post('/', async (req, res) => {
 
 
     const user = await User.create(data)
-    res.json(user)
+
+    //se agrega logica para loguear despues de crear usuario
+    const userForToken = {
+      username: user.username,
+      id: user.id,
+    }
+  
+    const token = jwt.sign(userForToken, SECRET)
+  
+    res
+      .status(200)
+      .send({ token, username: user.username })
+
+
+    
   } catch(error) {
     return res.status(400).json({ error })
   }

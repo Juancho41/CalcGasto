@@ -131,7 +131,7 @@ function App() {
           ingresosUsuario={ingresosUsuario} setIngresosUsuario={setIngresosUsuario} />} />
         <Route path="/ingresos" element={<ListaIngresos ingresosUsuario={ingresosUsuario} setIngresosUsuario={setIngresosUsuario} />} />
         <Route path="/gastos" element={<ListaGastos gastosUsuario={gastosUsuario} setGastosUsuario={setGastosUsuario}/>} />
-        <Route path="/newuser" element={<NewUser />} />
+        {/* <Route path="/newuser" element={<NewUser setUsuario={setUsuario} />} /> */}
       </Routes>
 
     </BrowserRouter>
