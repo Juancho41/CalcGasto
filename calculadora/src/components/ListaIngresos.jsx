@@ -19,6 +19,7 @@ function ListaIngresos({ ingresosUsuario, setIngresosUsuario }) {
     const [showEditGastoIngreso, setShowEditGastoIngreso] = useState(false);
     const handleCloseEditGastoIngreso = () => {
         setShowEditGastoIngreso(false);
+        ingreso.monto(0)
     };
     const handleShowEditGastoIngreso = () => setShowEditGastoIngreso(true);
 
