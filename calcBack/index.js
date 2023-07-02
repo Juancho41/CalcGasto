@@ -12,7 +12,7 @@ const billeterasRouter = require('./controllers/billeteras')
 const ingresosRouter = require('./controllers/ingresos')
 const egresosRouter = require('./controllers/egresos')
 
-const job = require('./scheduledFunctions/scheduledFunctions');
+const scheduledFunctions = require('./scheduledFunctions/scheduledFunctions')
 
 
 app.use(cors())
@@ -23,6 +23,9 @@ app.use('/api/login', loginRouter)
 app.use('/api/billeteras', billeterasRouter)
 app.use('/api/ingresos', ingresosRouter)
 app.use('/api/egresos', egresosRouter)
+
+scheduledFunctions.initScheduledJobs();
+
 
 const start = async () => {
   await connectToDatabase()
