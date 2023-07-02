@@ -17,7 +17,7 @@ function ModificarGastosIngresos({ ingreso, gasto, showEditGastoIngreso, handleC
                     <Form>
                         <Form.Group className="mb-3" controlId="formBasicDate">
                             <Form.Label>Fecha:</Form.Label>
-                            <Form.Control type="date" placeholder="Enter date" />
+                            <Form.Control type="date" defaultValue={ingreso.fecha} />
                             <Form.Text className="text-muted">
                                 Seleccione la fecha del movimiento de dinero
                             </Form.Text>
@@ -25,17 +25,17 @@ function ModificarGastosIngresos({ ingreso, gasto, showEditGastoIngreso, handleC
 
                         <Form.Group className="mb-3" controlId="formBasicNumber">
                             <Form.Label>Monto:</Form.Label>
-                            <Form.Control type="number" placeholder="Ingrese monto" />
+                            <Form.Control type="number" defaultValue={ingreso.monto} />
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicText">
                             <Form.Label>Categoría:</Form.Label>
-                            <Form.Control type="text" placeholder="Categoría" />
+                            <Form.Control type="text" defaultValue={ingreso.categoria} />
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicText">
                             <Form.Label>Comentario:</Form.Label>
-                            <Form.Control type="text" placeholder="Comentario..." />
+                            <Form.Control type="text" defaultValue={ingreso.comentario} />
                             <Form.Text className="text-muted">
                                 Opcional, para identificar el movimiento
                             </Form.Text>
@@ -45,7 +45,7 @@ function ModificarGastosIngresos({ ingreso, gasto, showEditGastoIngreso, handleC
 
                             <Form.Group className="mb-3" controlId="formBasicText">
                                 <Form.Label>Destino ingreso:</Form.Label>
-                                <Form.Control type="text" />
+                                <Form.Control type="text" defaultValue={ingreso.destino} />
                             </Form.Group>
 
                         }
