@@ -49,9 +49,9 @@ function NewUser({ setUsuario, setVerLogin }) {
         }
 
         try {
-            
+
             const createUser = await userService.create(newUser)
-            
+            console.log(createUser.data)
             setUsuario(createUser.data)
             window.localStorage.setItem(
                 'nuevoUsuarioCalc', JSON.stringify(createUser.data)
@@ -131,7 +131,7 @@ function NewUser({ setUsuario, setVerLogin }) {
                         </Button>
                     </Col>
                     <Col></Col>
-                    
+
                 </Row>
                 <Row className="mb-3">
                 <Col></Col>

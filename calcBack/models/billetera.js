@@ -27,6 +27,14 @@ Billetera.init({
     type: DataTypes.INTEGER,
     defaultValue: 7,
   },
+  numDiaCierreTarj: {
+    type: DataTypes.INTEGER,
+    defaultValue: 25,
+  },
+  montoCreditoMesAnt: {
+    type: DataTypes.FLOAT,
+    defaultValue: 0,
+  },
   montoCredito: {
     type: DataTypes.FLOAT,
     defaultValue: 0,
