@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
 import loginService from '../services/login'
+import billeteraService from '../services/billeteras'
 
 function Login({ setUsuario, setVerLogin }) {
 
@@ -33,13 +34,14 @@ function Login({ setUsuario, setVerLogin }) {
             const login = await loginService.login(user)
 
             setUsuario(login.data)
+            billeteraService.setToken(login.data.token)
             window.localStorage.setItem(
                 'usuarioCalc', JSON.stringify(login.data)
             )
             setEmail('')
             setPass('')
         } catch (exception) {
-            alert('Wrong credentials')
+            alert(exception)
 
         }
     }

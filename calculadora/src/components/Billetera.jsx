@@ -16,7 +16,7 @@ function Billetera(props) {
     props.handleShowGas()
   }
 
-  if (props.bille.permiteCredito) {
+  if (props.bille.permitCredit) {
     return (
       <Card>
         <Card.Header as="h5">{props.bille.nombre}</Card.Header>

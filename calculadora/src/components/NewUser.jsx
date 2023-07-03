@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 
 
 import userService from '../services/users'
+import billeteraService from '../services/billeteras';
 
 function NewUser({ setUsuario, setVerLogin }) {
 
@@ -53,6 +54,7 @@ function NewUser({ setUsuario, setVerLogin }) {
             const createUser = await userService.create(newUser)
             console.log(createUser.data)
             setUsuario(createUser.data)
+            billeteraService.setToken(createUser.data.token)
             window.localStorage.setItem(
                 'nuevoUsuarioCalc', JSON.stringify(createUser.data)
             )
