@@ -8,6 +8,8 @@ import Billetera from "./Billetera";
 import IngresoGasto from "./IngresoGasto";
 import AddBilletera from "./AddBilletera";
 
+import billeteraService from "../services/billeteras";
+
 function BilleGrid(props) {
   // UseState de los Canvas de Ingreso y Gasto
   const [showIngreso, setShowIngreso] = useState(false);
@@ -26,16 +28,23 @@ function BilleGrid(props) {
   const [origen, setOrigen] = useState(null);
   const [checkbox, setCheckbox] = useState(false);
 
-  const handleSubmitGasIng = (event) => {
+  const handleSubmitGasIng =  (event) => {
     event.preventDefault();
     if (destino != null) {
-      props.billeterasUsuario.map((bille) => {
+      props.billeterasUsuario.map( async (bille) => {
         if (bille.nombre == destino) {
           const nuevaBilletera = {
             ...bille,
-            monto: bille.monto += parseInt(monto)
+            monto: (bille.monto += parseInt(monto)),
           };
-          props.setBilleterasUsuario(props.billeterasUsuario.map(bille => bille.id !== idBilletera ? bille : nuevaBilletera))
+
+          const respuesta = await billeteraService.update(bille.idBilletera, nuevaBilletera);
+
+          props.setBilleterasUsuario(
+            props.billeterasUsuario.map((bille) =>
+              bille.id !== idBilletera ? bille : respuesta
+            )
+          );
 
           const nuevoIngreso = {
             id: props.ingresosUsuario.length + 1,
@@ -64,7 +73,11 @@ function BilleGrid(props) {
               ...bille,
               montoCredito: bille.montoCredito + parseInt(monto),
             };
-            props.setBilleterasUsuario(props.billeterasUsuario.map(bille => bille.id !== idBilletera ? bille : nuevaBilletera))
+            props.setBilleterasUsuario(
+              props.billeterasUsuario.map((bille) =>
+                bille.id !== idBilletera ? bille : nuevaBilletera
+              )
+            );
 
             const nuevoGasto = {
               id: props.gastosUsuario.length + 1,
@@ -90,7 +103,11 @@ function BilleGrid(props) {
               monto: bille.monto - parseInt(monto),
             };
 
-            props.setBilleterasUsuario(props.billeterasUsuario.map(bille => bille.id !== idBilletera ? bille : nuevaBilletera))
+            props.setBilleterasUsuario(
+              props.billeterasUsuario.map((bille) =>
+                bille.id !== idBilletera ? bille : nuevaBilletera
+              )
+            );
 
             const nuevoGasto = {
               id: props.gastosUsuario.length + 1,
@@ -110,7 +127,6 @@ function BilleGrid(props) {
             setOrigen(null);
             setCheckbox(false);
             handleCloseGas();
-
           }
         }
       });
@@ -129,91 +145,92 @@ function BilleGrid(props) {
   const [checkboxAddB, setCheckboxAddB] = useState(false);
   const [nombreBilletera, setNombreBilletera] = useState("");
   const [diaPagoCredito, setDiaPagoCredito] = useState(0);
+  const [diaCierreCredito, setDiaCierreCredito] = useState(0);
 
-  const handleGuardarBilletera = (event) => {
-    event.preventDefault();
-    
-      const nuevaBilletera = {
-        id: props.billeterasUsuario.length +1,
-        nombre: nombreBilletera,
-        monto: 0,
-        montoCredito: 0,
-        permiteCredito: checkboxAddB,
-        fechaPagoTarj: diaPagoCredito,
-      };
-
-      props.setBilleterasUsuario(props.billeterasUsuario.concat(nuevaBilletera));
-
-      setCheckboxAddB(false);
-      setNombreBilletera("");
-      setDiaPagoCredito(0);
-      handleCloseAddB();
-      console.log(props.billeterasUsuario)
+  const handleGuardarBilletera = async () => {
+    const nuevaBilletera = {
+      nombre: nombreBilletera,
+      monto: 0,
+      montoCredito: 0,
+      permitCredit: checkboxAddB,
+      numDiaPagoTarj: diaPagoCredito,
+      numDiaCierreTarj:diaCierreCredito
     };
 
-    return (
-      <Container className="mt-4">
-        <Row>
-          <AddBilletera
-            handleCloseAddB={handleCloseAddB}
-            handleShowAddB={handleShowAddB}
-            showAddBilletera={showAddBilletera}
-            setCheckboxAddB={setCheckboxAddB}
-            checkboxAddB={checkboxAddB}
-            handleGuardarBilletera={handleGuardarBilletera}
-            setDiaPagoCredito={setDiaPagoCredito}
-            setNombreBilletera={setNombreBilletera}
-          />
-        </Row>
-        <Row xs={1} md={2} className="mt-2 g-4">
-          {props.billeterasUsuario.map((billetera) => (
-            <div key={billetera.id}>
-              <Col>
-                <Billetera
-                  bille={billetera}
-                  setIdBilletera={setIdBilletera}
-                  setDestino={setDestino}
-                  setOrigen={setOrigen}
-                  handleShowIng={handleShowIng}
-                  handleShowGas={handleShowGas}
-                />
-              </Col>
-            </div>
-          ))}
-          <IngresoGasto
-            placement={"start"}
-            handleClose={handleCloseIng}
-            show={showIngreso}
-            titulo={"Ingreso"}
-            setDate={setDate}
-            setCategoria={setCategoria}
-            setCheckbox={setCheckbox}
-            setComentario={setComentario}
-            setDestino={setDestino}
-            setMonto={setMonto}
-            setOrigen={setOrigen}
-            handleSubmitGasIng={handleSubmitGasIng}
-            destino={destino}
-          />
-          <IngresoGasto
-            placement={"end"}
-            handleClose={handleCloseGas}
-            show={showGasto}
-            titulo={"Gasto"}
-            setDate={setDate}
-            setCategoria={setCategoria}
-            setCheckbox={setCheckbox}
-            setComentario={setComentario}
-            setDestino={setDestino}
-            setMonto={setMonto}
-            setOrigen={setOrigen}
-            handleSubmitGasIng={handleSubmitGasIng}
-            origen={origen}
-          />
-        </Row>
-      </Container>
-    );
-  }
+    const respuesta = await billeteraService.create(nuevaBilletera);
 
+    props.setBilleterasUsuario(props.billeterasUsuario.concat(respuesta));
+
+    setCheckboxAddB(false);
+    setNombreBilletera("");
+    setDiaPagoCredito(0);
+    handleCloseAddB();
+    console.log(props.billeterasUsuario);
+  };
+
+  return (
+    <Container className="mt-4">
+      <Row>
+        <AddBilletera
+          handleCloseAddB={handleCloseAddB}
+          handleShowAddB={handleShowAddB}
+          showAddBilletera={showAddBilletera}
+          setCheckboxAddB={setCheckboxAddB}
+          checkboxAddB={checkboxAddB}
+          handleGuardarBilletera={handleGuardarBilletera}
+          setDiaPagoCredito={setDiaPagoCredito}
+          setNombreBilletera={setNombreBilletera}
+          setDiaCierreCredito={setDiaCierreCredito}
+        />
+      </Row>
+      <Row xs={1} md={2} className="mt-2 g-4">
+        {props.billeterasUsuario.map((billetera) => (
+          <div key={billetera.id}>
+            <Col>
+              <Billetera
+                bille={billetera}
+                setIdBilletera={setIdBilletera}
+                setDestino={setDestino}
+                setOrigen={setOrigen}
+                handleShowIng={handleShowIng}
+                handleShowGas={handleShowGas}
+              />
+            </Col>
+          </div>
+        ))}
+        <IngresoGasto
+          placement={"start"}
+          handleClose={handleCloseIng}
+          show={showIngreso}
+          titulo={"Ingreso"}
+          setDate={setDate}
+          setCategoria={setCategoria}
+          setCheckbox={setCheckbox}
+          setComentario={setComentario}
+          setDestino={setDestino}
+          setMonto={setMonto}
+          setOrigen={setOrigen}
+          handleSubmitGasIng={handleSubmitGasIng}
+          destino={destino}
+        />
+        <IngresoGasto
+          placement={"end"}
+          handleClose={handleCloseGas}
+          show={showGasto}
+          titulo={"Gasto"}
+          setDate={setDate}
+          setCategoria={setCategoria}
+          setCheckbox={setCheckbox}
+          setComentario={setComentario}
+          setDestino={setDestino}
+          setMonto={setMonto}
+          setOrigen={setOrigen}
+          handleSubmitGasIng={handleSubmitGasIng}
+          origen={origen}
+        />
+      </Row>
+    </Container>
+  );
+}
 
 export default BilleGrid;

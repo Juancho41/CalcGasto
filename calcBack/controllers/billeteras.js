@@ -83,6 +83,7 @@ router.put('/:id', billeteraFinder, async (req, res) => {
     req.billetera.nombre = req.body.nombre
     req.billetera.permitCredit = req.body.permitCredit
     req.billetera.numDiaPagoTarj = req.body.numDiaPagoTarj
+    req.billetera.numDiaCierreTarj = req.body.numDiaCierreTarj
     await req.billetera.save()
     res.json(req.billetera)
   } else {

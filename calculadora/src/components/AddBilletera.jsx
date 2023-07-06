@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
-function AddBilletera({ handleCloseAddB, handleShowAddB, showAddBilletera, setCheckboxAddB, checkboxAddB, handleGuardarBilletera, setNombreBilletera, setDiaPagoCredito }) {
+function AddBilletera({ handleCloseAddB, handleShowAddB, showAddBilletera, setCheckboxAddB, checkboxAddB, handleGuardarBilletera, setNombreBilletera, setDiaPagoCredito, setDiaCierreCredito }) {
 
     const handleCheckboxChangeAddB = (event) => {
         setCheckboxAddB(event.target.checked)
@@ -11,12 +11,19 @@ function AddBilletera({ handleCloseAddB, handleShowAddB, showAddBilletera, setCh
     const handleNombreChange = (event) => {
         setNombreBilletera(event.target.value)
     }
-    const handleDateChange = (event) => {
-        const day = new Date(event.target.value)
-        setDiaPagoCredito(day.getDate('en-GB'))
-        console.log(day)
-        console.log(event.target.value)
+    const handleDateCierreChange = (event) => {
+        const dayCierre = new Date(event.target.value)
+        setDiaCierreCredito(dayCierre.getDate('en-GB'))
+
     }
+
+    const handleDatePagoChange = (event) => {
+        const dayPago = new Date(event.target.value)
+        setDiaPagoCredito(dayPago.getDate('en-GB'))
+
+    }
+
+
 
     return (
         <>
@@ -49,9 +56,15 @@ function AddBilletera({ handleCloseAddB, handleShowAddB, showAddBilletera, setCh
                                 <Form.Label>Fecha de próximo cierre</Form.Label>
                                 <Form.Control
                                     type="date"
-                                    onChange={handleDateChange}
+                                    onChange={handleDateCierreChange}
+                                />
+                                <Form.Label>Fecha de próximo pago de credito</Form.Label>
+                                <Form.Control
+                                    type="date"
+                                    onChange={handleDatePagoChange}
                                 />
                             </Form.Group>
+
                         }
 
                     </Form>
