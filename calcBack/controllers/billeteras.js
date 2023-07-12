@@ -52,6 +52,7 @@ router.post('/', tokenExtractor, async (req, res) => {
 
 //middleware para encontrar billetera segurn info del req.params
 const billeteraFinder = async (req, res, next) => {
+ 
   req.billetera = await Billetera.findByPk(req.params.id)
   next()
 }
@@ -79,12 +80,16 @@ router.delete('/:id', billeteraFinder, async (req, res) => {
 })
 
 router.put('/:id', billeteraFinder, async (req, res) => {
+  
   if (req.billetera) {
     req.billetera.nombre = req.body.nombre
+    req.billetera.monto = req.body.monto
+    req.billetera.montoCredito = req.body.montoCredito
     req.billetera.permitCredit = req.body.permitCredit
     req.billetera.numDiaPagoTarj = req.body.numDiaPagoTarj
     req.billetera.numDiaCierreTarj = req.body.numDiaCierreTarj
     await req.billetera.save()
+    
     res.json(req.billetera)
   } else {
     res.status(404).end()

@@ -28,108 +28,112 @@ function BilleGrid(props) {
   const [origen, setOrigen] = useState(null);
   const [checkbox, setCheckbox] = useState(false);
 
-  const handleSubmitGasIng =  (event) => {
+  const handleSubmitGasIng = async (event) => {
     event.preventDefault();
     if (destino != null) {
-      props.billeterasUsuario.map( async (bille) => {
-        if (bille.nombre == destino) {
-          const nuevaBilletera = {
-            ...bille,
-            monto: (bille.monto += parseInt(monto)),
-          };
 
-          const respuesta = await billeteraService.update(bille.idBilletera, nuevaBilletera);
+      const bille = props.billeterasUsuario.find(bille => bille.id == idBilletera)
 
-          props.setBilleterasUsuario(
-            props.billeterasUsuario.map((bille) =>
-              bille.id !== idBilletera ? bille : respuesta
-            )
-          );
 
-          const nuevoIngreso = {
-            id: props.ingresosUsuario.length + 1,
-            fecha: new Date(),
-            monto: monto,
-            categoria: categoria,
-            comentario: comentario,
-            destino: destino,
-          };
-          props.setIngresosUsuario(props.ingresosUsuario.concat(nuevoIngreso));
+      const nuevaBilletera = {
+        ...bille,
+        monto: (bille.monto += parseInt(monto)),
+      };
 
-          setDate(null);
-          setMonto(0);
-          setCategoria("");
-          setComentario("");
-          setDestino(null);
-          handleCloseIng();
-        }
-      });
+      const respuesta = await billeteraService.update(bille.id, nuevaBilletera);
+
+      props.setBilleterasUsuario(
+        props.billeterasUsuario.map((bille) =>
+          bille.id !== idBilletera ? bille : respuesta
+        )
+      );
+
+      const nuevoIngreso = {
+        id: props.ingresosUsuario.length + 1,
+        fecha: new Date(),
+        monto: monto,
+        categoria: categoria,
+        comentario: comentario,
+        destino: destino,
+      };
+      props.setIngresosUsuario(props.ingresosUsuario.concat(nuevoIngreso));
+
+      setDate(null);
+      setMonto(0);
+      setCategoria("");
+      setComentario("");
+      setDestino(null);
+      handleCloseIng();
+
+
     }
     if (origen != null) {
-      props.billeterasUsuario.map((bille) => {
-        if (bille.nombre == origen) {
-          if (bille.permiteCredito && checkbox) {
-            const nuevaBilletera = {
-              ...bille,
-              montoCredito: bille.montoCredito + parseInt(monto),
-            };
-            props.setBilleterasUsuario(
-              props.billeterasUsuario.map((bille) =>
-                bille.id !== idBilletera ? bille : nuevaBilletera
-              )
-            );
 
-            const nuevoGasto = {
-              id: props.gastosUsuario.length + 1,
-              fecha: new Date(),
-              monto: monto,
-              categoria: categoria,
-              comentario: comentario,
-              origen: origen,
-              credito: checkbox,
-            };
-            props.setGastosUsuario(props.gastosUsuario.concat(nuevoGasto));
+      const bille = props.billeterasUsuario.find(bille => bille.id == idBilletera)
 
-            setDate(null);
-            setMonto(0);
-            setCategoria("");
-            setComentario("");
-            setOrigen(null);
-            setCheckbox(false);
-            handleCloseGas();
-          } else {
-            const nuevaBilletera = {
-              ...bille,
-              monto: bille.monto - parseInt(monto),
-            };
+      if (bille.permitCredit && checkbox) {
+        const nuevaBilletera = {
+          ...bille,
+          montoCredito: bille.montoCredito + parseInt(monto),
+        };
+        const respuesta = await billeteraService.update(bille.id, nuevaBilletera);
+        props.setBilleterasUsuario(
+          props.billeterasUsuario.map((bille) =>
+            bille.id !== idBilletera ? bille : respuesta
+          )
+        );
 
-            props.setBilleterasUsuario(
-              props.billeterasUsuario.map((bille) =>
-                bille.id !== idBilletera ? bille : nuevaBilletera
-              )
-            );
+        const nuevoGasto = {
+          id: props.gastosUsuario.length + 1,
+          fecha: new Date(),
+          monto: monto,
+          categoria: categoria,
+          comentario: comentario,
+          origen: origen,
+          credito: checkbox,
+        };
+        props.setGastosUsuario(props.gastosUsuario.concat(nuevoGasto));
 
-            const nuevoGasto = {
-              id: props.gastosUsuario.length + 1,
-              fecha: new Date(),
-              monto: monto,
-              categoria: categoria,
-              comentario: comentario,
-              origen: origen,
-              credito: checkbox,
-            };
-            props.setGastosUsuario(props.gastosUsuario.concat(nuevoGasto));
+        setDate(null);
+        setMonto(0);
+        setCategoria("");
+        setComentario("");
+        setOrigen(null);
+        setCheckbox(false);
+        handleCloseGas();
 
-            setDate(null);
-            setMonto(0);
-            setCategoria("");
-            setComentario("");
-            setOrigen(null);
-            setCheckbox(false);
-            handleCloseGas();
-          }
-        }
-      });
+      } else {
+        const nuevaBilletera = {
+          ...bille,
+          monto: bille.monto - parseInt(monto),
+        };
+        const respuesta = await billeteraService.update(bille.id, nuevaBilletera);
+        props.setBilleterasUsuario(
+          props.billeterasUsuario.map((bille) =>
+            bille.id !== idBilletera ? bille : respuesta
+          )
+        );
+
+        const nuevoGasto = {
+          id: props.gastosUsuario.length + 1,
+          fecha: new Date(),
+          monto: monto,
+          categoria: categoria,
+          comentario: comentario,
+          origen: origen,
+          credito: checkbox,
+        };
+        props.setGastosUsuario(props.gastosUsuario.concat(nuevoGasto));
+
+        setDate(null);
+        setMonto(0);
+        setCategoria("");
+        setComentario("");
+        setOrigen(null);
+        setCheckbox(false);
+        handleCloseGas();
+      }
+
     }
   };
 
@@ -154,7 +158,7 @@ function BilleGrid(props) {
       montoCredito: 0,
       permitCredit: checkboxAddB,
       numDiaPagoTarj: diaPagoCredito,
-      numDiaCierreTarj:diaCierreCredito
+      numDiaCierreTarj: diaCierreCredito
     };
 
     const respuesta = await billeteraService.create(nuevaBilletera);
