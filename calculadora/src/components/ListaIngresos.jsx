@@ -9,7 +9,6 @@ import ModificarGastosIngresos from "./ModificarGastosIngresos"
 
 
 function ListaIngresos({ ingresosUsuario, setIngresosUsuario }) {
-
     // funcion para eliminar un ingreso
     const deleteIngreso = (id) => {
         setIngresosUsuario(ingresosUsuario.filter(ingreso => ingreso.id != id))
@@ -19,15 +18,21 @@ function ListaIngresos({ ingresosUsuario, setIngresosUsuario }) {
     const [showEditGastoIngreso, setShowEditGastoIngreso] = useState(false);
     const handleCloseEditGastoIngreso = () => {
         setShowEditGastoIngreso(false);
-        ingreso.monto(0)
     };
+
+    const [fechaEdit,setFechaEdit] = useState(false);
+    const handleFechaChange = (event) => {
+        setFechaEdit(event.target.value)
+    }
     const handleShowEditGastoIngreso = () => setShowEditGastoIngreso(true);
 
-    // esta parte esta mal, hay qe seguir
-    const [modifIngreso, setModifIngreso] = useState(false);
-    const modificarIngreso = (id) => {
-        setModifIngreso(ingresosUsuario.filter(ingreso => ingreso.id != id))
+    const [montoEdit,setMontoEdit] = useState(false);
+    const handleMontoChange = (event) => {
+        setMontoEdit(event.target.value)
     }
+    
+    
+    
 
 
 
@@ -54,7 +59,8 @@ function ListaIngresos({ ingresosUsuario, setIngresosUsuario }) {
                                 <td>{ingreso.categoria}</td>
                                 <td>{ingreso.comentario}</td>
                                 <td>{ingreso.destino}</td>
-                                <td><ModificarGastosIngresos ingreso={ingreso} handleCloseEditGastoIngreso={handleCloseEditGastoIngreso} showEditGastoIngreso={showEditGastoIngreso} handleShowEditGastoIngreso={handleShowEditGastoIngreso}/></td>
+                                <td><ModificarGastosIngresos ingreso={ingreso} handleCloseEditGastoIngreso={handleCloseEditGastoIngreso} showEditGastoIngreso={showEditGastoIngreso} handleShowEditGastoIngreso={handleShowEditGastoIngreso}
+                                handleFechaChange={handleFechaChange} handleMontoChange={handleMontoChange}/></td>
                                 <td><Button onClick={() => deleteIngreso(ingreso.id)}>X</Button></td>
                             </tr>
                         )

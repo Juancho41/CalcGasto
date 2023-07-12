@@ -10,7 +10,7 @@ import ModificarGastosIngresos from "./ModificarGastosIngresos"
 function ListaGastos({ gastosUsuario, setGastosUsuario }) {
     // funcion para eliminar un gasto
     const deleteGasto = (id) => {
-        setGastosUsuario(gastosUsuario.filter(gasto => gasto.id != id) )
+        setGastosUsuario(gastosUsuario.filter(gasto => gasto.id != id))
     } 
 
     // funcion para modificar un gasto
