@@ -62,7 +62,7 @@ function App() {
   const mockDataGastos = [
     {
       id: 1,
-      fecha: new Date("06/20/2023"),
+      fecha: new Date("10/20/2023"),
       monto: 2000,
       categoria: "Gimnasio",
       comentario: "cuota mes junio",
