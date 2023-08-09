@@ -13,7 +13,6 @@ Billetera.init({
   nombre: {
     type: DataTypes.TEXT,
     allowNull: false,
-    unique: true,
   },
   monto: {
     type: DataTypes.FLOAT,

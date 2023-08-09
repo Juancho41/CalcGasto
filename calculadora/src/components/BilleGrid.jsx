@@ -31,6 +31,7 @@ function BilleGrid(props) {
 
   const handleSubmitGasIng = async (event) => {
     event.preventDefault();
+    //para un ingreso
     if (destino != null) {
 
       const bille = props.billeterasUsuario.find(bille => bille.id == idBilletera)
@@ -41,11 +42,9 @@ function BilleGrid(props) {
         monto: (bille.monto += parseInt(monto)),
       };
 
-      const respuesta = await billeteraService.update(bille.id, nuevaBilletera);
-
       props.setBilleterasUsuario(
         props.billeterasUsuario.map((bille) =>
-          bille.id !== idBilletera ? bille : respuesta
+          bille.id !== idBilletera ? bille : nuevaBilletera
         )
       );
 
@@ -72,25 +71,28 @@ function BilleGrid(props) {
 
 
     }
+
+
+    //para un gasto
     if (origen != null) {
 
       const bille = props.billeterasUsuario.find(bille => bille.id == idBilletera)
 
+      //Para gastos con credito
       if (bille.permitCredit && checkbox) {
         const nuevaBilletera = {
           ...bille,
           montoCredito: bille.montoCredito + parseInt(monto),
         };
-        const respuesta = await billeteraService.update(bille.id, nuevaBilletera);
+        
         props.setBilleterasUsuario(
           props.billeterasUsuario.map((bille) =>
-            bille.id !== idBilletera ? bille : respuesta
+            bille.id !== idBilletera ? bille : nuevaBilletera
           )
         );
 
         const nuevoGasto = {
-          id: props.gastosUsuario.length + 1,
-          fecha: new Date(),
+          date: new Date(),
           monto: monto,
           categoria: categoria,
           comentario: comentario,
@@ -111,25 +113,23 @@ function BilleGrid(props) {
         setCheckbox(false);
         handleCloseGas();
 
-      } else {
+      } else {      //Para gastos sin credito
         const nuevaBilletera = {
           ...bille,
           monto: bille.monto - parseInt(monto),
         };
-        const respuesta = await billeteraService.update(bille.id, nuevaBilletera);
+        
         props.setBilleterasUsuario(
           props.billeterasUsuario.map((bille) =>
-            bille.id !== idBilletera ? bille : respuesta
+            bille.id !== idBilletera ? bille : nuevaBilletera
           )
         );
 
         const nuevoGasto = {
-          id: props.gastosUsuario.length + 1,
-          fecha: new Date(),
+          date: new Date(),
           monto: monto,
           categoria: categoria,
           comentario: comentario,
-          origen: origen,
           credito: checkbox,
           billeteraId: idBilletera,
         };

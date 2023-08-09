@@ -26,9 +26,9 @@ Egreso.init({
   comentario: {
     type: DataTypes.TEXT,
   },
-  formaPago: {
-    type: DataTypes.TEXT,
-    defaultValue: 'debito'
+  credito: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   },
 }, {
   sequelize,
