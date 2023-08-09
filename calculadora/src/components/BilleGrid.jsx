@@ -9,6 +9,7 @@ import IngresoGasto from "./IngresoGasto";
 import AddBilletera from "./AddBilletera";
 
 import billeteraService from "../services/billeteras";
+import gastosService from '../services/gastos'
 
 function BilleGrid(props) {
   // UseState de los Canvas de Ingreso y Gasto
@@ -55,7 +56,11 @@ function BilleGrid(props) {
         categoria: categoria,
         comentario: comentario,
         destino: destino,
+        billeteraId: idBilletera,
       };
+
+
+
       props.setIngresosUsuario(props.ingresosUsuario.concat(nuevoIngreso));
 
       setDate(null);
@@ -91,8 +96,12 @@ function BilleGrid(props) {
           comentario: comentario,
           origen: origen,
           credito: checkbox,
+          billeteraId: idBilletera,
         };
-        props.setGastosUsuario(props.gastosUsuario.concat(nuevoGasto));
+
+        const respuestaGasto = await gastosService.create(nuevoGasto);
+
+        props.setGastosUsuario(props.gastosUsuario.concat(respuestaGasto));
 
         setDate(null);
         setMonto(0);
@@ -122,8 +131,11 @@ function BilleGrid(props) {
           comentario: comentario,
           origen: origen,
           credito: checkbox,
+          billeteraId: idBilletera,
         };
-        props.setGastosUsuario(props.gastosUsuario.concat(nuevoGasto));
+
+        const respuestaGasto = await gastosService.create(nuevoGasto);
+        props.setGastosUsuario(props.gastosUsuario.concat(respuestaGasto));
 
         setDate(null);
         setMonto(0);

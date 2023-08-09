@@ -1,38 +1,54 @@
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-function FormGastoIng({handleSubmitGasIng, setDate, setMonto, setCategoria, setComentario, setDestino, setOrigen, setCheckbox, ingreso, gasto, destino, origen}) {
-
-
+function FormGastoIng({
+  handleSubmitGasIng,
+  setDate,
+  setMonto,
+  setCategoria,
+  setComentario,
+  setDestino,
+  setOrigen,
+  setCheckbox,
+  ingreso,
+  gasto,
+  destino,
+  origen,
+}) {
   const handleDateChange = (event) => {
-    setDate(event.target.value)
-  }
+    setDate(event.target.value);
+  };
   const handleMontoChange = (event) => {
-    setMonto(event.target.value)
-  }
+    setMonto(event.target.value);
+  };
   const handleCategoriaChange = (event) => {
-    setCategoria(event.target.value)
-  }
+    setCategoria(event.target.value);
+  };
   const handleComentarioChange = (event) => {
-    setComentario(event.target.value)
-  }
+    setComentario(event.target.value);
+  };
   const handleDestinoChange = (event) => {
-    setDestino(event.target.value)
-  }
+    setDestino(event.target.value);
+  };
   const handleOrigenChange = (event) => {
-    setOrigen(event.target.value)
-  }
+    setOrigen(event.target.value);
+  };
   const handleCheckboxChange = (event) => {
-   setCheckbox(event.target.checked)
-  }
+    setCheckbox(event.target.checked);
+  };
 
   return (
     <Form onSubmit={handleSubmitGasIng}>
       <Form.Group className="mb-3" controlId="formBasicDate">
         <Form.Label>Fecha:</Form.Label>
-        <Form.Control onChange={handleDateChange} type="date" placeholder="Enter date" />
+        <Form.Control
+          onChange={handleDateChange}
+          type="date"
+          defaultValue={new Date().toISOString().slice(0, 10)}
+          placeholder="Enter date"
+        />
         <Form.Text className="text-muted">
           Seleccione la fecha del movimiento de dinero
         </Form.Text>
@@ -40,46 +56,65 @@ function FormGastoIng({handleSubmitGasIng, setDate, setMonto, setCategoria, setC
 
       <Form.Group className="mb-3" controlId="formBasicNumber">
         <Form.Label>Monto:</Form.Label>
-        <Form.Control onChange={handleMontoChange} type="number" placeholder="Ingrese monto" />
+        <Form.Control
+          onChange={handleMontoChange}
+          type="number"
+          placeholder="Ingrese monto"
+        />
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formBasicText">
         <Form.Label>Categoría:</Form.Label>
-        <Form.Control onChange={handleCategoriaChange} type="text" placeholder="Categoría" />
+        <Form.Control
+          onChange={handleCategoriaChange}
+          type="text"
+          placeholder="Categoría"
+        />
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formBasicText">
         <Form.Label>Comentario:</Form.Label>
-        <Form.Control onChange={handleComentarioChange} type="text" placeholder="Comentario..." />
+        <Form.Control
+          onChange={handleComentarioChange}
+          type="text"
+          placeholder="Comentario..."
+        />
         <Form.Text className="text-muted">
           Opcional, para identificar el movimiento
         </Form.Text>
       </Form.Group>
 
-      {ingreso &&
-
+      {ingreso && (
         <Form.Group className="mb-3" controlId="formBasicText">
           <Form.Label>Destino ingreso:</Form.Label>
-          <Form.Control onChange={handleDestinoChange} type="text" defaultValue={destino}/>
+          <Form.Control
+            onChange={handleDestinoChange}
+            type="text"
+            defaultValue={destino}
+          />
         </Form.Group>
+      )}
 
-      }
-
-      {gasto &&
+      {gasto && (
         <>
           <Form.Group className="mb-3" controlId="formBasicText">
             <Form.Label>Origen egreso:</Form.Label>
-            <Form.Control onChange={handleOrigenChange} type="text" defaultValue={origen} />
+            <Form.Control
+              onChange={handleOrigenChange}
+              type="text"
+              defaultValue={origen}
+            />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
-            <Form.Check onChange={handleCheckboxChange} type="checkbox" label="¿Es con crédito?" />
+            <Form.Check
+              onChange={handleCheckboxChange}
+              type="checkbox"
+              label="¿Es con crédito?"
+            />
           </Form.Group>
         </>
-
-      }
-
-
+      )}
 
       <Button variant="primary" type="submit">
         Agregar

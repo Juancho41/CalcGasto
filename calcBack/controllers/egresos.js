@@ -40,6 +40,7 @@ router.get('/', tokenExtractor, async (req, res) => {
 
 const billeteraFinder = async (req, res, next) => {
     req.billetera = await Billetera.findByPk(req.body.billeteraId)
+    
     next()
 }
 
@@ -66,7 +67,9 @@ router.post('/', tokenExtractor, billeteraFinder, async (req, res) => {
 })
 
 const egresoFinder = async (req, res, next) => {
+    console.log(req.params.id)
     req.egreso = await Egreso.findByPk(req.params.id)
+    console.log(req.egreso)
     next()
 }
 
@@ -90,7 +93,7 @@ router.delete('/:id', egresoFinder, billeteraFinder, async (req, res) => {
 
 router.put('/:id', egresoFinder, billeteraFinder, async (req, res) => {
   if (req.egreso && req.billetera) {
-    
+
     req.egreso.date = req.body.date
     req.egreso.categoria = req.body.categoria
     req.egreso.comentario = req.body.comentario
@@ -111,7 +114,7 @@ router.put('/:id', egresoFinder, billeteraFinder, async (req, res) => {
         await billeteraAnterior.save()
 
         req.egreso.billeteraId = req.body.billeteraId
-        
+
     }
 
     await req.egreso.save()

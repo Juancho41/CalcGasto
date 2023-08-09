@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import billeteraService from "./services/billeteras";
+import gastosService from './services/gastos';
 
 function App() {
   //prueba
@@ -115,13 +116,19 @@ function App() {
       const user = JSON.parse(loggedUserJSON);
       setUsuario(user);
       billeteraService.setToken(user.token);
+      gastosService.setToken(user.token);
     }
   }, []);
 
   useEffect(() => {
     async function fetchData() {
+      //buscar billeteras del usuario
       const billeteras = await billeteraService.getAll();
       setBilleterasUsuario(billeteras)
+      //buscar gastos del usuario
+      const gastos = await gastosService.getAll();
+     
+      setGastosUsuario(gastos)
     }
     if (usuario) {
       fetchData();

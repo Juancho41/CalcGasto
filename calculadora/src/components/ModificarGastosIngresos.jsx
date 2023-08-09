@@ -51,7 +51,7 @@ function ModificarGastosIngresos({ ingreso, gasto, editGasto, editIngreso }) {
       setDestinoEdit(ingreso.destino);
     } else {
       setMontoEdit(gasto.monto);
-      setFechaEdit(gasto.fecha);
+      setFechaEdit(gasto.date);
       setCategoriaEdit(gasto.categoria);
       setComentarioEdit(gasto.comentario);
       setOrigenEdit(gasto.origen);

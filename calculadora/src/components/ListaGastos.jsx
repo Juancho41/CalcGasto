@@ -4,12 +4,16 @@ import Button from "react-bootstrap/esm/Button";
 
 import { useState } from "react";
 
+//importar servicios
+import gastosService from '../services/gastos'
+
 // importar componente
 import ModificarGastosIngresos from "./ModificarGastosIngresos";
 
 function ListaGastos({ gastosUsuario, setGastosUsuario }) {
   // funcion para eliminar un gasto
-  const deleteGasto = (id) => {
+  const deleteGasto = async (id) => {
+    await gastosService.deleteGasto(id);
     setGastosUsuario(gastosUsuario.filter((gasto) => gasto.id != id));
   };
 
@@ -38,7 +42,7 @@ function ListaGastos({ gastosUsuario, setGastosUsuario }) {
           {gastosUsuario.map((gasto) => {
             return (
               <tr key={gasto.id}>
-                <td>{gasto.fecha.toLocaleDateString("en-GB")}</td>
+                <td>{new Date(gasto.date).toLocaleDateString("en-GB")}</td>
                 <td>{gasto.monto}</td>
                 <td>{gasto.categoria}</td>
                 <td>{gasto.comentario}</td>
