@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = "http://localhost:3001/api/egresos";
+const baseUrl = "http://localhost:3001/api/ingresos";
 
 let token = null;
 
@@ -30,9 +30,9 @@ const update = (id, newObject) => {
   return request.then((response) => response.data);
 };
 
-const deleteGasto = (id) => {
+const deleteIngreso = (id) => {
   return axios.delete(`${baseUrl}/${id}`);
 };
 
 
-export default { getAll, create, update, setToken, deleteGasto };
+export default { getAll, create, update, setToken, deleteIngreso };

@@ -21,7 +21,7 @@ function FormGastoIng({
     setDate(event.target.value);
   };
   const handleMontoChange = (event) => {
-    setMonto(event.target.value);
+    setMonto(Number(event.target.value));
   };
   const handleCategoriaChange = (event) => {
     setCategoria(event.target.value);

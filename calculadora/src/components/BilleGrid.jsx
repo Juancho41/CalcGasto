@@ -10,6 +10,7 @@ import AddBilletera from "./AddBilletera";
 
 import billeteraService from "../services/billeteras";
 import gastosService from '../services/gastos'
+import ingresosService from '../services/ingresos'
 
 function BilleGrid(props) {
   // UseState de los Canvas de Ingreso y Gasto
@@ -49,18 +50,15 @@ function BilleGrid(props) {
       );
 
       const nuevoIngreso = {
-        id: props.ingresosUsuario.length + 1,
-        fecha: new Date(),
+        date: date,
         monto: monto,
         categoria: categoria,
         comentario: comentario,
-        destino: destino,
         billeteraId: idBilletera,
       };
 
-
-
-      props.setIngresosUsuario(props.ingresosUsuario.concat(nuevoIngreso));
+      const respuestaIngreso = await ingresosService.create(nuevoIngreso);
+      props.setIngresosUsuario(props.ingresosUsuario.concat(respuestaIngreso));
 
       setDate(null);
       setMonto(0);
@@ -92,7 +90,7 @@ function BilleGrid(props) {
         );
 
         const nuevoGasto = {
-          date: new Date(),
+          date: date,
           monto: monto,
           categoria: categoria,
           comentario: comentario,
@@ -125,9 +123,9 @@ function BilleGrid(props) {
             bille.id !== idBilletera ? bille : nuevaBilletera
           )
         );
-
+              
         const nuevoGasto = {
-          date: new Date(),
+          date: date,
           monto: monto,
           categoria: categoria,
           comentario: comentario,
@@ -215,6 +213,8 @@ function BilleGrid(props) {
                 billeterasUsuario={props.billeterasUsuario}
                 setGastosUsuario={props.setGastosUsuario}
                 gastosUsuario={props.gastosUsuario}
+                setIngresosUsuario={props.setIngresosUsuario}
+                ingresosUsuario={props.ingresosUsuario}
               />
             </Col>
           </div>

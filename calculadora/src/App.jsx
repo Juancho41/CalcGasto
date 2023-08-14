@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import billeteraService from "./services/billeteras";
 import gastosService from './services/gastos';
+import ingresosService from './services/ingresos';
 
 function App() {
   //prueba
@@ -117,6 +118,7 @@ function App() {
       setUsuario(user);
       billeteraService.setToken(user.token);
       gastosService.setToken(user.token);
+      ingresosService.setToken(user.token);
     }
   }, []);
 
@@ -125,10 +127,14 @@ function App() {
       //buscar billeteras del usuario
       const billeteras = await billeteraService.getAll();
       setBilleterasUsuario(billeteras)
+      
       //buscar gastos del usuario
       const gastos = await gastosService.getAll();
-     
       setGastosUsuario(gastos)
+
+      //buscar ingresos del usuario
+      const ingresos = await ingresosService.getAll();
+      setIngresosUsuario(ingresos)
     }
     if (usuario) {
       fetchData();

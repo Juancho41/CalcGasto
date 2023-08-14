@@ -21,11 +21,17 @@ function Billetera(props) {
     if(confirm('Está seguro q quier borrar esta billetera? Todos los gastos e ingresos pertenecientes a la misma serán borrados')) {
       try {
         await billeteraService.deleteBille(id)
+        //quitar billetera borrada
         props.setBilleterasUsuario(
           props.billeterasUsuario.filter((bille) =>bille.id != id)
         );
+        //quitar los gastos de la billetera borrada
         props.setGastosUsuario(
           props.gastosUsuario.filter((gasto) =>gasto.billeteraId != id)
+        );
+         //quitar ingresos de la billetera borrada
+        props.setIngresosUsuario(
+          props.ingresosUsuario.filter((ingreso) =>ingreso.billeteraId != id)
         );
       } catch (error) {
         alert(error)
