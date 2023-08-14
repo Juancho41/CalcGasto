@@ -24,6 +24,9 @@ function Billetera(props) {
         props.setBilleterasUsuario(
           props.billeterasUsuario.filter((bille) =>bille.id != id)
         );
+        props.setGastosUsuario(
+          props.gastosUsuario.filter((gasto) =>gasto.billeteraId != id)
+        );
       } catch (error) {
         alert(error)
       }

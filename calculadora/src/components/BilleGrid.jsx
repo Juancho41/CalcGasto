@@ -213,6 +213,8 @@ function BilleGrid(props) {
                 handleShowGas={handleShowGas}
                 setBilleterasUsuario={props.setBilleterasUsuario}
                 billeterasUsuario={props.billeterasUsuario}
+                setGastosUsuario={props.setGastosUsuario}
+                gastosUsuario={props.gastosUsuario}
               />
             </Col>
           </div>
