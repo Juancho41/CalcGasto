@@ -96,7 +96,6 @@ function BilleGrid(props) {
           monto: monto,
           categoria: categoria,
           comentario: comentario,
-          origen: origen,
           credito: checkbox,
           billeteraId: idBilletera,
         };
@@ -113,7 +112,9 @@ function BilleGrid(props) {
         setCheckbox(false);
         handleCloseGas();
 
-      } else {      //Para gastos sin credito
+
+        //Para gastos sin credito
+      } else {
         const nuevaBilletera = {
           ...bille,
           monto: bille.monto - parseInt(monto),

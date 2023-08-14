@@ -40,20 +40,20 @@ router.get('/', tokenExtractor, async (req, res) => {
 
 const billeteraFinder = async (req, res, next) => {
     req.billetera = await Billetera.findByPk(req.body.billeteraId)
-    
+
     next()
 }
 
 
 router.post('/', tokenExtractor, billeteraFinder, async (req, res) => {
     try {
-        
+        console.log('egreso')
         const user = await User.findByPk(req.decodedToken.id)
-        
+
 
         const egreso = await Egreso.create({ ...req.body, userId: user.id })
         console.log(egreso)
-        
+
         if (req.billetera) {
             console.log('asdfasdfasdf')
             req.billetera.monto -= req.body.monto
