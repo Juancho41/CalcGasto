@@ -84,7 +84,7 @@ function BilleGrid(props) {
           ...bille,
           montoCredito: bille.montoCredito + parseInt(monto),
         };
-        
+
         props.setBilleterasUsuario(
           props.billeterasUsuario.map((bille) =>
             bille.id !== idBilletera ? bille : nuevaBilletera
@@ -118,7 +118,7 @@ function BilleGrid(props) {
           ...bille,
           monto: bille.monto - parseInt(monto),
         };
-        
+
         props.setBilleterasUsuario(
           props.billeterasUsuario.map((bille) =>
             bille.id !== idBilletera ? bille : nuevaBilletera
@@ -210,6 +210,8 @@ function BilleGrid(props) {
                 setOrigen={setOrigen}
                 handleShowIng={handleShowIng}
                 handleShowGas={handleShowGas}
+                setBilleterasUsuario={props.setBilleterasUsuario}
+                billeterasUsuario={props.billeterasUsuario}
               />
             </Col>
           </div>

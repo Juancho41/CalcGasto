@@ -29,5 +29,9 @@ const update = async (id, newObject) => {
   return response.data;
 };
 
+const deleteBille = async (id) => {
+  return await axios.delete(`${baseUrl}/${id}`);
+};
 
-export default { getAll, create, update, setToken };
+
+export default { getAll, create, update, setToken, deleteBille };

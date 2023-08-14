@@ -2,8 +2,11 @@ const router = require('express').Router()
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 const Billetera = require('../models/billetera')
+const Ingreso = require('../models/ingreso')
+const Egreso = require('../models/egreso')
 
 const { SECRET } = require('../util/config')
+
 
 
 const tokenExtractor = (req, res, next) => {
@@ -52,7 +55,7 @@ router.post('/', tokenExtractor, async (req, res) => {
 
 //middleware para encontrar billetera segurn info del req.params
 const billeteraFinder = async (req, res, next) => {
- 
+
   req.billetera = await Billetera.findByPk(req.params.id)
   next()
 }
@@ -67,20 +70,27 @@ router.get('/:id', billeteraFinder, async (req, res) => {
 
 router.delete('/:id', billeteraFinder, async (req, res) => {
   if (req.billetera) {
-    //el monto que tenia la billetera a borrar debería ir a otra billetera a menos q sea cero
-    if(req.billetera.monto != 0){
-      //buscar la billetera q se va a seleccionar para enviar el monto de la billetera a borrar
-      billeteraParaMonto = await Billetera.findByPk(req.body.billeteraId)
-      billeteraParaMonto.monto += req.billetera.monto
-      await billeteraParaMonto.save()
-    }
+    //al borrar la billetera se tienen q borrar todos los gastos e ingresos asociados a la misma
+    //se buscan todos los egresos relacionados a la billetera
+    const gastos = await Egreso.findAll({
+      where: {
+        billeteraId: req.billetera.id,
+      },
+    });
+    console.log(gastos)
+    //se buscan todos los ingresos relacionados a la billetera
+    const ingresos = await Ingreso.findAll({
+      where: {
+        billeteraId: req.billetera.id,
+      },
+    });
     await req.billetera.destroy()
   }
   res.status(204).end()
 })
 
 router.put('/:id', billeteraFinder, async (req, res) => {
-  
+
   if (req.billetera) {
     req.billetera.nombre = req.body.nombre
     req.billetera.monto = req.body.monto
@@ -89,7 +99,7 @@ router.put('/:id', billeteraFinder, async (req, res) => {
     req.billetera.numDiaPagoTarj = req.body.numDiaPagoTarj
     req.billetera.numDiaCierreTarj = req.body.numDiaCierreTarj
     await req.billetera.save()
-    
+
     res.json(req.billetera)
   } else {
     res.status(404).end()
