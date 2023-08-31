@@ -18,7 +18,7 @@ function FormGastoIng({
   origen,
 }) {
   const handleDateChange = (event) => {
-    setDate(event.target.value);
+    setDate(new Date(event.target.value).toISOString().substring(0, 10));
   };
   const handleMontoChange = (event) => {
     setMonto(Number(event.target.value));

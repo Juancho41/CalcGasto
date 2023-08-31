@@ -22,10 +22,15 @@ const tokenExtractor = (req, res, next) => {
 router.get("/", tokenExtractor, async (req, res) => {
   const egresos = await Egreso.findAll({
     attributes: { exclude: ["userId"] },
-    include: {
+    include: [{
       model: User,
       attributes: ["username"],
     },
+    {
+      model: Billetera,
+      attributes: ["nombre"],
+    }],
+
     where: {
       userId: req.decodedToken.id,
     },

@@ -108,7 +108,7 @@ function App() {
 
   const [billeterasUsuario, setBilleterasUsuario] = useState(mockDataBilletera);
   const [ingresosUsuario, setIngresosUsuario] = useState(mockDataIngresos);
-  const [gastosUsuario, setGastosUsuario] = useState(mockDataGastos);
+  const [gastosUsuario, setGastosUsuario] = useState(null);
   const [usuario, setUsuario] = useState(null);
 
   useEffect(() => {
@@ -127,7 +127,7 @@ function App() {
       //buscar billeteras del usuario
       const billeteras = await billeteraService.getAll();
       setBilleterasUsuario(billeteras)
-      
+
       //buscar gastos del usuario
       const gastos = await gastosService.getAll();
       setGastosUsuario(gastos)
