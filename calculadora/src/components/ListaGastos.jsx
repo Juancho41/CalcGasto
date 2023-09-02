@@ -12,12 +12,14 @@ import gastosService from '../services/gastos'
 // importar componente
 import ModificarGastosIngresos from "./ModificarGastosIngresos";
 
-function ListaGastos({ gastosUsuario, setGastosUsuario }) {
+function ListaGastos({ gastosUsuario, setGastosUsuario, billeterasUsuario, setBilleterasUsuario }) {
 
   //Logica para filtrar por fechas
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [filteredData, setFilteredData] = useState(gastosUsuario);
+  const [categoriaFilter, setCategoriaFilter] = useState("");
+  const [origenFilter, setOrigenFilter] = useState("");
 
    // actualiza filteredData cuando gastosUsuario cambia
    useEffect(() => {
@@ -25,31 +27,60 @@ function ListaGastos({ gastosUsuario, setGastosUsuario }) {
   }, [gastosUsuario]);
 
 
-  const handleFilter = (start, end) => {
+  const handleFilter = (start, end, categoria, origen) => {
     setStartDate(start);
     setEndDate(end);
+    setCategoriaFilter(categoria);
+    setOrigenFilter(origen);
 
     if (!start || !end) {
-      //si alguna de las fechas no está, se resetea el filtro para mostrar toda la data
       setFilteredData(gastosUsuario);
       return;
     }
 
     const startObj = new Date(start).toISOString().substring(0, 10);
     const endObj = new Date(end).toISOString().substring(0, 10);
-    //comparación entre las fechas seleccionadas y los datos
-    const filtered = gastosUsuario.filter(
-      (item) => new Date(item.date).toISOString().substring(0, 10) >= startObj && new Date(item.date).toISOString().substring(0, 10) <= endObj
-    );
+
+    const filtered = gastosUsuario.filter((item) => {
+      const dateCondition =
+        new Date(item.date).toISOString().substring(0, 10) >= startObj &&
+        new Date(item.date).toISOString().substring(0, 10) <= endObj;
+
+      const categoriaCondition =
+        !categoria || item.categoria.toLowerCase().includes(categoria.toLowerCase());
+
+      const origenCondition =
+        !origen || item.billetera.nombre.toLowerCase().includes(origen.toLowerCase());
+
+      return dateCondition && categoriaCondition && origenCondition;
+    });
 
     setFilteredData(filtered);
   };
+
+  //Funcion para actualizar las billeteras despues de modificar o eliminar
+  const updateBille = (id) => {
+    const gasto = gastosUsuario.find((gasto) => gasto.id == id)
+    const bille = billeterasUsuario.find(bille => bille.id == gasto.billeteraId)
+
+      const nuevaBilletera = {
+        ...bille,
+        monto: (bille.monto += parseInt(gasto.monto)),
+      };
+
+      setBilleterasUsuario(
+        billeterasUsuario.map((bille) =>
+          bille.id !== gasto.billeteraId ? bille : nuevaBilletera
+        )
+      );
+  }
 
 
   // funcion para eliminar un gasto
   const deleteGasto = async (id) => {
     await gastosService.deleteGasto(id);
     setGastosUsuario(gastosUsuario.filter((gasto) => gasto.id != id));
+    updateBille(id);
   };
 
   //funcion para modificar lista de gastos
@@ -64,6 +95,8 @@ function ListaGastos({ gastosUsuario, setGastosUsuario }) {
       handleFilter={handleFilter}
       startDate={startDate}
       endDate={endDate}
+      origenFilter={origenFilter}
+      categoriaFilter={categoriaFilter}
     />
       <Table striped bordered hover variant="dark">
         <thead>

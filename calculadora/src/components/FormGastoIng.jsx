@@ -91,6 +91,7 @@ function FormGastoIng({
             onChange={handleDestinoChange}
             type="text"
             defaultValue={destino}
+            disabled
           />
         </Form.Group>
       )}
@@ -103,6 +104,7 @@ function FormGastoIng({
               onChange={handleOrigenChange}
               type="text"
               defaultValue={origen}
+              disabled
             />
           </Form.Group>
 

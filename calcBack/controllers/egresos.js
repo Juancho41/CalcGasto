@@ -22,14 +22,16 @@ const tokenExtractor = (req, res, next) => {
 router.get("/", tokenExtractor, async (req, res) => {
   const egresos = await Egreso.findAll({
     attributes: { exclude: ["userId"] },
-    include: [{
-      model: User,
-      attributes: ["username"],
-    },
-    {
-      model: Billetera,
-      attributes: ["nombre"],
-    }],
+    include: [
+      {
+        model: User,
+        attributes: ["username"],
+      },
+      {
+        model: Billetera,
+        attributes: ["nombre"],
+      },
+    ],
 
     where: {
       userId: req.decodedToken.id,
@@ -56,8 +58,22 @@ router.post("/", tokenExtractor, billeteraFinder, async (req, res) => {
     } else {
       res.status(404).end();
     }
-
-    res.json(egreso);
+    //egreso returned sirve para devolver desde la base de dato el objeto al forntend con los atributos de nombre billetera
+    const egresoReturned = await Egreso.findOne({
+      attributes: { exclude: ["userId"] },
+      include: [
+        {
+          model: User,
+          attributes: ["username"],
+        },
+        {
+          model: Billetera,
+          attributes: ["nombre"],
+        },
+      ],
+      where: { id: egreso.id },
+    });
+    res.json(egresoReturned);
   } catch (error) {
     return res.status(400).json({ error: "error en post de egreso" });
   }

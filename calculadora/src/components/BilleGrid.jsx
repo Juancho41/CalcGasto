@@ -30,6 +30,7 @@ function BilleGrid(props) {
   const [origen, setOrigen] = useState(null);
   const [checkbox, setCheckbox] = useState(false);
 
+
   const handleSubmitGasIng = async (event) => {
     event.preventDefault();
     //para un ingreso
@@ -123,7 +124,7 @@ function BilleGrid(props) {
             bille.id !== idBilletera ? bille : nuevaBilletera
           )
         );
-              
+
         const nuevoGasto = {
           date: date,
           monto: monto,
@@ -180,7 +181,6 @@ function BilleGrid(props) {
     setNombreBilletera("");
     setDiaPagoCredito(0);
     handleCloseAddB();
-    console.log(props.billeterasUsuario);
   };
 
   return (

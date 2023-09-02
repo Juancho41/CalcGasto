@@ -175,6 +175,8 @@ function App() {
             <ListaGastos
               gastosUsuario={gastosUsuario}
               setGastosUsuario={setGastosUsuario}
+              billeterasUsuario={billeterasUsuario}
+              setBilleterasUsuario={setBilleterasUsuario}
             />
           }
         />
