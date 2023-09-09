@@ -15,26 +15,24 @@ function ModificarGastosIngresos({ ingreso, gasto, editGasto, editIngreso }) {
   const [origenEdit, setOrigenEdit] = useState(null);
   const [creditoEdit, setCreditoEdit] = useState(null);
 
-
+  console.log(gasto)
   const handleGuardarEdit = (id) => {
     if (ingreso) {
       const nuevoGastoIng = {
         ...ingreso,
         monto: montoEdit,
-        fecha: fechaEdit,
+        date: fechaEdit,
         comentario: comentarioEdit,
         categoria: categoriaEdit,
-        destino: destinoEdit,
       };
       editIngreso(nuevoGastoIng);
     } else {
       const nuevoGastoIng = {
         ...gasto,
         monto: montoEdit,
-        fecha: fechaEdit,
+        date: fechaEdit,
         comentario: comentarioEdit,
         categoria: categoriaEdit,
-        origen: origenEdit,
         credito: creditoEdit,
       };
       editGasto(nuevoGastoIng);

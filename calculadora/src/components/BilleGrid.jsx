@@ -61,7 +61,7 @@ function BilleGrid(props) {
       const respuestaIngreso = await ingresosService.create(nuevoIngreso);
       props.setIngresosUsuario(props.ingresosUsuario.concat(respuestaIngreso));
 
-      setDate(null);
+      setDate(new Date());
       setMonto(0);
       setCategoria("");
       setComentario("");
@@ -103,7 +103,7 @@ function BilleGrid(props) {
 
         props.setGastosUsuario(props.gastosUsuario.concat(respuestaGasto));
 
-        setDate(null);
+        setDate(new Date());
         setMonto(0);
         setCategoria("");
         setComentario("");
@@ -137,7 +137,7 @@ function BilleGrid(props) {
         const respuestaGasto = await gastosService.create(nuevoGasto);
         props.setGastosUsuario(props.gastosUsuario.concat(respuestaGasto));
 
-        setDate(null);
+        setDate(new Date());
         setMonto(0);
         setCategoria("");
         setComentario("");

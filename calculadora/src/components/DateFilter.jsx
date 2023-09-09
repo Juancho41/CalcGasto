@@ -1,4 +1,3 @@
-// Update DateFilter.jsx
 import React from "react";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
@@ -21,6 +20,7 @@ const DateFilter = ({ handleCatFilter, handleDateFilter, startDate, endDate, cat
   const handleOrigenChange = (event) => {
     handleCatFilter(categoriaFilter, event.target.value);
   };
+
 
   return (
     <Card className="mb-4">

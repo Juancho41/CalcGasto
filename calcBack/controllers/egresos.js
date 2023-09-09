@@ -109,7 +109,7 @@ router.put("/:id", egresoFinder, billeteraFinder, async (req, res) => {
     req.egreso.date = req.body.date;
     req.egreso.categoria = req.body.categoria;
     req.egreso.comentario = req.body.comentario;
-    req.egreso.formaPago = req.body.formaPago;
+    req.egreso.credito = req.body.credito;
 
     if (req.egreso.monto != req.body.monto) {
       req.egreso.monto = req.body.monto;
