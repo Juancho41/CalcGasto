@@ -22,7 +22,7 @@ function BilleGrid(props) {
   const handleShowGas = () => setShowGasto(true);
 
   const [idBilletera, setIdBilletera] = useState(null);
-  const [date, setDate] = useState(0);
+  const [date, setDate] = useState(new Date());
   const [monto, setMonto] = useState(0);
   const [categoria, setCategoria] = useState(0);
   const [comentario, setComentario] = useState(0);
