@@ -5,21 +5,21 @@ import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-const DateFilter = ({ handleFilter, startDate, endDate, categoriaFilter, origenFilter }) => {
+const DateFilter = ({ handleCatFilter, handleDateFilter, startDate, endDate, categoriaFilter, origenFilter }) => {
   const handleStartDateChange = (event) => {
-    handleFilter(event.target.value, endDate, categoriaFilter, origenFilter);
+    handleDateFilter(event.target.value, endDate);
   };
 
   const handleEndDateChange = (event) => {
-    handleFilter(startDate, event.target.value, categoriaFilter, origenFilter);
+    handleDateFilter(startDate, event.target.value);
   };
 
   const handleCategoriaChange = (event) => {
-    handleFilter(startDate, endDate, event.target.value, origenFilter);
+    handleCatFilter(event.target.value, origenFilter);
   };
 
   const handleOrigenChange = (event) => {
-    handleFilter(startDate, endDate, categoriaFilter, event.target.value);
+    handleCatFilter(categoriaFilter, event.target.value);
   };
 
   return (

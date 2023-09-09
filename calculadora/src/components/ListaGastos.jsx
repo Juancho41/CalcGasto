@@ -13,7 +13,7 @@ import gastosService from '../services/gastos'
 import ModificarGastosIngresos from "./ModificarGastosIngresos";
 
 function ListaGastos({ gastosUsuario, setGastosUsuario, billeterasUsuario, setBilleterasUsuario }) {
-
+  console.log(gastosUsuario)
   //Logica para filtrar por fechas
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -26,12 +26,10 @@ function ListaGastos({ gastosUsuario, setGastosUsuario, billeterasUsuario, setBi
     setFilteredData(gastosUsuario);
   }, [gastosUsuario]);
 
-
-  const handleFilter = (start, end, categoria, origen) => {
+  //filtro para la fecha
+  const handleDateFilter = (start, end) => {
     setStartDate(start);
     setEndDate(end);
-    setCategoriaFilter(categoria);
-    setOrigenFilter(origen);
 
     if (!start || !end) {
       setFilteredData(gastosUsuario);
@@ -46,13 +44,26 @@ function ListaGastos({ gastosUsuario, setGastosUsuario, billeterasUsuario, setBi
         new Date(item.date).toISOString().substring(0, 10) >= startObj &&
         new Date(item.date).toISOString().substring(0, 10) <= endObj;
 
+      return dateCondition;
+    });
+
+    setFilteredData(filtered);
+  };
+
+  // filtro para categoria y origen
+  const handleCatFilter = (categoria, origen) => {
+    setCategoriaFilter(categoria);
+    setOrigenFilter(origen);
+
+    const filtered = gastosUsuario.filter((item) => {
+
       const categoriaCondition =
         !categoria || item.categoria.toLowerCase().includes(categoria.toLowerCase());
 
       const origenCondition =
         !origen || item.billetera.nombre.toLowerCase().includes(origen.toLowerCase());
 
-      return dateCondition && categoriaCondition && origenCondition;
+      return categoriaCondition && origenCondition;
     });
 
     setFilteredData(filtered);
@@ -92,7 +103,8 @@ function ListaGastos({ gastosUsuario, setGastosUsuario, billeterasUsuario, setBi
   return (
     <Container className="mt-5">
       <DateFilter
-      handleFilter={handleFilter}
+      handleCatFilter={handleCatFilter}
+      handleDateFilter={handleDateFilter}
       startDate={startDate}
       endDate={endDate}
       origenFilter={origenFilter}
