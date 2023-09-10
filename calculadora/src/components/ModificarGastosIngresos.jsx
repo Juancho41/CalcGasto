@@ -2,8 +2,9 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import Dropdown from 'react-bootstrap/Dropdown';
 
-function ModificarGastosIngresos({ ingreso, gasto, editGasto, editIngreso }) {
+function ModificarGastosIngresos({ ingreso, gasto, editGasto, editIngreso, billeterasUsuario }) {
 
   const [showEditGastoIngreso, setShowEditGastoIngreso] = useState(false);
 
@@ -14,8 +15,18 @@ function ModificarGastosIngresos({ ingreso, gasto, editGasto, editIngreso }) {
   const [destinoEdit, setDestinoEdit] = useState(null);
   const [origenEdit, setOrigenEdit] = useState(null);
   const [creditoEdit, setCreditoEdit] = useState(null);
+  const [cambioBilleId, setCambioBilleId] = useState(null)
 
-  console.log(gasto)
+  const cambioOrigen = (item) => {
+    setOrigenEdit(item)
+    const id = billeterasUsuario.find(bille => {
+      if(bille.nombre == item){
+        return setCambioBilleId(bille.id)
+      }
+    })
+    
+  }
+  
   const handleGuardarEdit = (id) => {
     if (ingreso) {
       const nuevoGastoIng = {
@@ -34,6 +45,8 @@ function ModificarGastosIngresos({ ingreso, gasto, editGasto, editIngreso }) {
         comentario: comentarioEdit,
         categoria: categoriaEdit,
         credito: creditoEdit,
+        billeteraId: cambioBilleId,
+        billetera: {nombre: origenEdit}
       };
       editGasto(nuevoGastoIng);
     }
@@ -52,13 +65,15 @@ function ModificarGastosIngresos({ ingreso, gasto, editGasto, editIngreso }) {
       setFechaEdit(gasto.date);
       setCategoriaEdit(gasto.categoria);
       setComentarioEdit(gasto.comentario);
-      setOrigenEdit(gasto.origen);
+      setOrigenEdit(gasto.billetera.nombre);
       setCreditoEdit(gasto.credito);
+      setCambioBilleId(gasto.billeteraId)
 
     }
 
     setShowEditGastoIngreso(true);
   };
+
 
   return (
     <>
@@ -176,12 +191,32 @@ function ModificarGastosIngresos({ ingreso, gasto, editGasto, editIngreso }) {
 
                 <Form.Group className="mb-3" controlId="formBasicText">
                   <Form.Label>Origen egreso:</Form.Label>
-                  <Form.Control
-                    type="text"
-                    onChange={(event) => setOrigenEdit(event.target.value)}
-                    defaultValue={origenEdit}
-                  />
+                  <div className="input-group">
+                    <Dropdown>
+                      <Dropdown.Toggle variant="outline-secondary" id="dropdown-basic">
+                        {origenEdit || "Select Origen"}
+                      </Dropdown.Toggle>
+
+                      <Dropdown.Menu>
+                        {billeterasUsuario.map((item) => (
+                          <Dropdown.Item
+                            key={item.id}
+                            onClick={() => cambioOrigen(item.nombre)}
+                          >
+                            {item.nombre}
+                          </Dropdown.Item>
+                        ))}
+                      </Dropdown.Menu>
+                    </Dropdown>
+                    <Form.Control
+                      type="text"
+                      value={origenEdit || ""}
+                      placeholder="Origen egreso"
+                      disabled
+                    />
+                  </div>
                 </Form.Group>
+
 
                 <Form.Group className="mb-3" controlId="formBasicCheckbox">
                   <Form.Check

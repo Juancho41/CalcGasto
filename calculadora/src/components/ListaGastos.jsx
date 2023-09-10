@@ -157,6 +157,7 @@ function ListaGastos({ gastosUsuario, setGastosUsuario, billeterasUsuario, setBi
                         <ModificarGastosIngresos
                           gasto={gasto}
                           editGasto={editGasto}
+                          billeterasUsuario={billeterasUsuario}
                         />
                       </td>
                       <td>
