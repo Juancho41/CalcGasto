@@ -69,7 +69,7 @@ function ListaGastos({ gastosUsuario, setGastosUsuario, billeterasUsuario, setBi
     setFilteredData(filtered);
   };
 
-  //Funcion para actualizar las billeteras despues de modificar o eliminar
+  //Funcion para actualizar las billeteras despues de eliminar
   const updateBille = (id) => {
     const gasto = gastosUsuario.find((gasto) => gasto.id == id)
     const bille = billeterasUsuario.find(bille => bille.id == gasto.billeteraId)
@@ -98,6 +98,7 @@ function ListaGastos({ gastosUsuario, setGastosUsuario, billeterasUsuario, setBi
   const editGasto = async (nuevoGastoIng) => {
     await gastosService.update(nuevoGastoIng.id, nuevoGastoIng);
     setGastosUsuario(gastosUsuario.map(gasto => gasto.id == nuevoGastoIng.id ? nuevoGastoIng : gasto))
+
   }
   const styles = {
     td: {

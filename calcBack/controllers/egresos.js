@@ -119,11 +119,11 @@ router.put("/:id", egresoFinder, billeteraFinder, async (req, res) => {
 
     if (req.egreso.billeteraId != req.body.billeteraId) {
       
-      req.billetera.monto += req.body.monto;
+      req.billetera.monto -= req.body.monto;
       await req.billetera.save();
 
       billeteraAnterior = await Billetera.findByPk(req.egreso.billeteraId);
-      billeteraAnterior.monto -= req.body.monto;
+      billeteraAnterior.monto += req.body.monto;
       await billeteraAnterior.save();
 
       req.egreso.billeteraId = req.body.billeteraId;
