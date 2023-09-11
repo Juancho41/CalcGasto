@@ -22,10 +22,17 @@ const tokenExtractor = (req, res, next) => {
 router.get("/", tokenExtractor, async (req, res) => {
   const ingresos = await Ingreso.findAll({
     attributes: { exclude: ["userId"] },
-    include: {
-      model: User,
-      attributes: ["username"],
-    },
+    include: [
+      {
+        model: User,
+        attributes: ["username"],
+      },
+      {
+        model: Billetera,
+        attributes: ["nombre"],
+      },
+    ],
+
     where: {
       userId: req.decodedToken.id,
     },
@@ -51,9 +58,24 @@ router.post("/", tokenExtractor, billeteraFinder, async (req, res) => {
       res.status(404).end();
     }
 
-    res.json(ingreso);
+    //ingresoReturned sirve para devolver desde la base de dato el objeto al forntend con los atributos de nombre billetera
+    const ingresoReturned = await Ingreso.findOne({
+      attributes: { exclude: ["userId"] },
+      include: [
+        {
+          model: User,
+          attributes: ["username"],
+        },
+        {
+          model: Billetera,
+          attributes: ["nombre"],
+        },
+      ],
+      where: { id: ingreso.id },
+    });
+    res.json(ingresoReturned);
   } catch (error) {
-    return res.status(400).json({ error: error });
+    return res.status(400).json({ error: "error en post de ingreso" });
   }
 });
 
@@ -89,8 +111,8 @@ router.put("/:id", ingresoFinder, billeteraFinder, async (req, res) => {
     req.ingreso.comentario = req.body.comentario;
 
     if (req.ingreso.monto != req.body.monto) {
-      req.ingreso.monto = req.body.monto;
-      req.billetera -= req.ingreso.monto - req.body.monto;
+      req.billetera.monto -= (req.ingreso.monto - req.body.monto);
+      req.ingreso.monto = req.body.monto;      
       await req.billetera.save();
     }
 
@@ -105,8 +127,8 @@ router.put("/:id", ingresoFinder, billeteraFinder, async (req, res) => {
       req.ingreso.billeteraId = req.body.billeteraId;
     }
 
-    await req.egreso.save();
-    res.json(req.egreso);
+    await req.ingreso.save();
+    res.json(req.ingreso);
   } else {
     res.status(404).end();
   }

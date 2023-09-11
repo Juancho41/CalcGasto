@@ -26,11 +26,18 @@ function ModificarGastosIngresos({ ingreso, gasto, editGasto, editIngreso, bille
     })
     
   }
+  const cambioDestino = (item) => {
+    setDestinoEdit(item)
+    const id = billeterasUsuario.find(bille => {
+      if(bille.nombre == item){
+        return setCambioBilleId(bille.id)
+      }
+    })
+    
+  }
   
-  const handleGuardarEdit = (id) => {
-    const gastIngAnterior = {
-      ...gasto
-    }
+  const handleGuardarEdit = () => {
+
     if (ingreso) {
       const nuevoGastoIng = {
         ...ingreso,
@@ -38,8 +45,10 @@ function ModificarGastosIngresos({ ingreso, gasto, editGasto, editIngreso, bille
         date: fechaEdit,
         comentario: comentarioEdit,
         categoria: categoriaEdit,
+        billeteraId: cambioBilleId,
+        billetera: {nombre: origenEdit}
       };
-      editIngreso(nuevoGastoIng);
+      editIngreso(nuevoGastoIng, ingreso.billeteraId);
     } else {
       const nuevoGastoIng = {
         ...gasto,
@@ -59,10 +68,11 @@ function ModificarGastosIngresos({ ingreso, gasto, editGasto, editIngreso, bille
   const handleShowEditGastoIngreso = () => {
     if (ingreso) {
       setMontoEdit(ingreso.monto);
-      setFechaEdit(ingreso.fecha);
+      setFechaEdit(ingreso.date);
       setCategoriaEdit(ingreso.categoria);
       setComentarioEdit(ingreso.comentario);
-      setDestinoEdit(ingreso.destino);
+      setDestinoEdit(ingreso.billetera.nombre);
+      setCambioBilleId(ingreso.billeteraId)
     } else {
       setMontoEdit(gasto.monto);
       setFechaEdit(gasto.date);
@@ -137,12 +147,31 @@ function ModificarGastosIngresos({ ingreso, gasto, editGasto, editIngreso, bille
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicText">
-                  <Form.Label>Destino ingreso:</Form.Label>
-                  <Form.Control
-                    type="text"
-                    onChange={(event) => setDestinoEdit(event.target.value)}
-                    defaultValue={destinoEdit}
-                  />
+                  <Form.Label>Destino Ingreso:</Form.Label>
+                  <div className="input-group">
+                    <Dropdown>
+                      <Dropdown.Toggle variant="outline-secondary" id="dropdown-basic">
+                        {destinoEdit || "Select Origen"}
+                      </Dropdown.Toggle>
+
+                      <Dropdown.Menu>
+                        {billeterasUsuario.map((item) => (
+                          <Dropdown.Item
+                            key={item.id}
+                            onClick={() => cambioDestino(item.nombre)}
+                          >
+                            {item.nombre}
+                          </Dropdown.Item>
+                        ))}
+                      </Dropdown.Menu>
+                    </Dropdown>
+                    <Form.Control
+                      type="text"
+                      value={destinoEdit || ""}
+                      placeholder="Destino ingreso"
+                      disabled
+                    />
+                  </div>
                 </Form.Group>
               </>
             )}
@@ -193,7 +222,7 @@ function ModificarGastosIngresos({ ingreso, gasto, editGasto, editIngreso, bille
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicText">
-                  <Form.Label>Origen egreso:</Form.Label>
+                  <Form.Label>Origen Egreso:</Form.Label>
                   <div className="input-group">
                     <Dropdown>
                       <Dropdown.Toggle variant="outline-secondary" id="dropdown-basic">

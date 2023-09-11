@@ -65,7 +65,7 @@ router.post("/", tokenExtractor, billeteraFinder, async (req, res) => {
       res.status(404).end();
     }
 
-    //egreso returned sirve para devolver desde la base de dato el objeto al forntend con los atributos de nombre billetera
+    //egresoReturned sirve para devolver desde la base de dato el objeto al forntend con los atributos de nombre billetera
     const egresoReturned = await Egreso.findOne({
       attributes: { exclude: ["userId"] },
       include: [
@@ -126,7 +126,6 @@ router.put("/:id", egresoFinder, billeteraFinder, async (req, res) => {
     }
 
     if (req.egreso.billeteraId != req.body.billeteraId) {
-
       req.billetera.monto -= req.body.monto;
       await req.billetera.save();
 
