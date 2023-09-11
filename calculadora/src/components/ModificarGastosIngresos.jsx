@@ -28,6 +28,9 @@ function ModificarGastosIngresos({ ingreso, gasto, editGasto, editIngreso, bille
   }
   
   const handleGuardarEdit = (id) => {
+    const gastIngAnterior = {
+      ...gasto
+    }
     if (ingreso) {
       const nuevoGastoIng = {
         ...ingreso,
@@ -48,7 +51,7 @@ function ModificarGastosIngresos({ ingreso, gasto, editGasto, editIngreso, bille
         billeteraId: cambioBilleId,
         billetera: {nombre: origenEdit}
       };
-      editGasto(nuevoGastoIng);
+      editGasto(nuevoGastoIng, gasto.billeteraId);
     }
     setShowEditGastoIngreso(false);
   };
@@ -224,6 +227,7 @@ function ModificarGastosIngresos({ ingreso, gasto, editGasto, editIngreso, bille
                     label="¿Es con crédito?"
                     onChange={(event) => setCreditoEdit(event.target.value)}
                     defaultChecked={creditoEdit}
+                    disabled
                   />
                 </Form.Group>
               </>

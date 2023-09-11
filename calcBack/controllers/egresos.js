@@ -52,11 +52,19 @@ router.post("/", tokenExtractor, billeteraFinder, async (req, res) => {
     const egreso = await Egreso.create({ ...req.body, userId: user.id });
 
     if (req.billetera) {
-      req.billetera.monto -= req.body.monto;
-      await req.billetera.save();
+      if (!egreso.credito) {
+        req.billetera.monto -= req.body.monto;
+        await req.billetera.save();
+      } else if(egreso.credito){
+        req.billetera.montoCredito += req.body.monto;
+        await req.billetera.save();
+      } else {
+        res.status(404).end();
+      }
     } else {
       res.status(404).end();
     }
+
     //egreso returned sirve para devolver desde la base de dato el objeto al forntend con los atributos de nombre billetera
     const egresoReturned = await Egreso.findOne({
       attributes: { exclude: ["userId"] },
@@ -110,15 +118,15 @@ router.put("/:id", egresoFinder, billeteraFinder, async (req, res) => {
     req.egreso.categoria = req.body.categoria;
     req.egreso.comentario = req.body.comentario;
     req.egreso.credito = req.body.credito;
-    
-    if (req.egreso.monto != req.body.monto) {      
+
+    if (req.egreso.monto != req.body.monto) {
       req.billetera.monto = (req.billetera.monto + req.egreso.monto - req.body.monto);
       req.egreso.monto = req.body.monto;
       await req.billetera.save();
     }
 
     if (req.egreso.billeteraId != req.body.billeteraId) {
-      
+
       req.billetera.monto -= req.body.monto;
       await req.billetera.save();
 

@@ -70,7 +70,7 @@ function ListaGastos({ gastosUsuario, setGastosUsuario, billeterasUsuario, setBi
   };
 
   //Funcion para actualizar las billeteras despues de eliminar
-  const updateBille = (id) => {
+  const updateBilleElim = (id) => {
     const gasto = gastosUsuario.find((gasto) => gasto.id == id)
     const bille = billeterasUsuario.find(bille => bille.id == gasto.billeteraId)
 
@@ -86,19 +86,48 @@ function ListaGastos({ gastosUsuario, setGastosUsuario, billeterasUsuario, setBi
     );
   }
 
+  //Funcion para actualizar las billeteras despues de cambiar gasto de billetera
+  const updateBilleCamb = (idBilleNueva, idBilleAnt, gasto) => {
+    const billeNueva = billeterasUsuario.find(bille => bille.id == idBilleNueva)
+    const billeAnt = billeterasUsuario.find(bille => bille.id == idBilleAnt)
+
+    const nuevaBilletera = {
+      ...billeNueva,
+      monto: (billeNueva.monto -= parseInt(gasto.monto)),
+    };
+
+    const antBilletera = {
+      ...billeAnt,
+      monto: (billeAnt.monto += parseInt(gasto.monto)),
+    };
+
+    setBilleterasUsuario(
+      billeterasUsuario.map((bille) => {
+        if(bille.id == billeNueva.id) {
+          return billeNueva
+        } else if (bille.id == antBilletera.id) {
+          return antBilletera
+        } else {
+          return bille
+        }
+
+      })
+    );
+  }
+
 
   // funcion para eliminar un gasto
   const deleteGasto = async (id) => {
     await gastosService.deleteGasto(id);
     setGastosUsuario(gastosUsuario.filter((gasto) => gasto.id != id));
-    updateBille(id);
+    updateBilleElim(id);
   };
 
   //funcion para modificar lista de gastos
-  const editGasto = async (nuevoGastoIng) => {
+  const editGasto = async (nuevoGastoIng, idBilleAnt) => {
     await gastosService.update(nuevoGastoIng.id, nuevoGastoIng);
     setGastosUsuario(gastosUsuario.map(gasto => gasto.id == nuevoGastoIng.id ? nuevoGastoIng : gasto))
-
+    updateBilleCamb(nuevoGastoIng.billeteraId, idBilleAnt, nuevoGastoIng)
   }
   const styles = {
     td: {
