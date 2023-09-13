@@ -87,24 +87,33 @@ function ListaGastos({ gastosUsuario, setGastosUsuario, billeterasUsuario, setBi
   }
 
   //Funcion para actualizar las billeteras despues de cambiar gasto de billetera
-  const updateBilleCamb = (idBilleNueva, idBilleAnt, gasto) => {
-    const billeNueva = billeterasUsuario.find(bille => bille.id == idBilleNueva)
-    const billeAnt = billeterasUsuario.find(bille => bille.id == idBilleAnt)
+  const updateBilleCamb = (nuevoGastoIng, gastoIngAnt) => {
+    const billeNueva = billeterasUsuario.find(bille => bille.id == nuevoGastoIng.billeteraId)
+    const billeAnt = billeterasUsuario.find(bille => bille.id == gastoIngAnt.billeteraId)
 
     const nuevaBilletera = {
       ...billeNueva,
-      monto: (billeNueva.monto -= parseInt(gasto.monto)),
     };
 
     const antBilletera = {
       ...billeAnt,
-      monto: (billeAnt.monto += parseInt(gasto.monto)),
     };
 
+    if (nuevoGastoIng.monto != gastoIngAnt.monto) {
+      nuevaBilletera.monto = nuevaBilletera.monto + gastoIngAnt.monto - nuevoGastoIng.monto;
+    }
+
+    if (nuevoGastoIng.billeteraId != gastoIngAnt.billeteraId) {
+      nuevaBilletera.monto -= gastoIngAnt.monto
+      antBilletera.monto += gastoIngAnt.monto
+    }
+
+    console.log(nuevaBilletera.id)
+    console.log(antBilletera.id)
     setBilleterasUsuario(
       billeterasUsuario.map((bille) => {
-        if(bille.id == billeNueva.id) {
-          return billeNueva
+        if (bille.id == nuevaBilletera.id) {
+          return nuevaBilletera
         } else if (bille.id == antBilletera.id) {
           return antBilletera
         } else {
@@ -113,6 +122,7 @@ function ListaGastos({ gastosUsuario, setGastosUsuario, billeterasUsuario, setBi
 
       })
     );
+
   }
 
 
@@ -124,10 +134,10 @@ function ListaGastos({ gastosUsuario, setGastosUsuario, billeterasUsuario, setBi
   };
 
   //funcion para modificar lista de gastos
-  const editGasto = async (nuevoGastoIng, idBilleAnt) => {
+  const editGasto = async (nuevoGastoIng, gastoIngAnt) => {
     await gastosService.update(nuevoGastoIng.id, nuevoGastoIng);
     setGastosUsuario(gastosUsuario.map(gasto => gasto.id == nuevoGastoIng.id ? nuevoGastoIng : gasto))
-    updateBilleCamb(nuevoGastoIng.billeteraId, idBilleAnt, nuevoGastoIng)
+    updateBilleCamb(nuevoGastoIng, gastoIngAnt)
   }
   const styles = {
     td: {

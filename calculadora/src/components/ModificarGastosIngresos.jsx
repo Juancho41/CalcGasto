@@ -60,7 +60,7 @@ function ModificarGastosIngresos({ ingreso, gasto, editGasto, editIngreso, bille
         billeteraId: cambioBilleId,
         billetera: {nombre: origenEdit}
       };
-      editGasto(nuevoGastoIng, gasto.billeteraId);
+      editGasto(nuevoGastoIng, gasto);
     }
     setShowEditGastoIngreso(false);
   };

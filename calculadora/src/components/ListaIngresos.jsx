@@ -86,25 +86,25 @@ function ListaIngresos({ ingresosUsuario, setIngresosUsuario, billeterasUsuario,
     );
   }
 
-  //Funcion para actualizar las billeteras despues de cambiar gasto de billetera
-  const updateBilleCamb = (idBilleNueva, idBilleAnt, gasto) => {
+  //Funcion para actualizar las billeteras despues de cambiar ingreso de billetera
+  const updateBilleCamb = (idBilleNueva, idBilleAnt, ingreso) => {
     const billeNueva = billeterasUsuario.find(bille => bille.id == idBilleNueva)
     const billeAnt = billeterasUsuario.find(bille => bille.id == idBilleAnt)
 
     const nuevaBilletera = {
       ...billeNueva,
-      monto: (billeNueva.monto += parseInt(gasto.monto)),
+      monto: (billeNueva.monto += parseInt(ingreso.monto)),
     };
 
     const antBilletera = {
       ...billeAnt,
-      monto: (billeAnt.monto -= parseInt(gasto.monto)),
+      monto: (billeAnt.monto -= parseInt(ingreso.monto)),
     };
 
     setBilleterasUsuario(
       billeterasUsuario.map((bille) => {
-        if (bille.id == billeNueva.id) {
-          return billeNueva
+        if (bille.id == nuevaBilletera.id) {
+          return nuevaBilletera
         } else if (bille.id == antBilletera.id) {
           return antBilletera
         } else {
@@ -121,7 +121,7 @@ function ListaIngresos({ ingresosUsuario, setIngresosUsuario, billeterasUsuario,
     updateBilleElim(id)
   };
 
-  //funcion para modificar lista de gastos
+  //funcion para modificar lista de ingresos
   const editIngreso = async (nuevoGastoIng, idBilleAnt) => {
     await ingresosService.update(nuevoGastoIng.id, nuevoGastoIng);
     setIngresosUsuario(ingresosUsuario.map(gasto => gasto.id == nuevoGastoIng.id ? nuevoGastoIng : gasto))
