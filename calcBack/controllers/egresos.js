@@ -120,22 +120,21 @@ router.put("/:id", egresoFinder, billeteraFinder, async (req, res) => {
     req.egreso.credito = req.body.credito;
 
     if (req.egreso.monto != req.body.monto) {
-      req.billetera.monto = (req.billetera.monto + req.egreso.monto - req.body.monto);
-      req.egreso.monto = req.body.monto;
+      req.billetera.monto = (req.billetera.monto + req.egreso.monto - req.body.monto);      
       await req.billetera.save();
     }
 
     if (req.egreso.billeteraId != req.body.billeteraId) {
-      req.billetera.monto -= req.body.monto;
+      req.billetera.monto -=  Number(req.egreso.monto);
       await req.billetera.save();
 
       billeteraAnterior = await Billetera.findByPk(req.egreso.billeteraId);
-      billeteraAnterior.monto += req.body.monto;
+      billeteraAnterior.monto += Number(req.egreso.monto);
       await billeteraAnterior.save();
 
       req.egreso.billeteraId = req.body.billeteraId;
     }
-
+    req.egreso.monto = req.body.monto;
     await req.egreso.save();
     res.json(req.egreso);
   } else {
