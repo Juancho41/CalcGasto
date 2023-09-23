@@ -33,5 +33,10 @@ const deleteBille = async (id) => {
   return await axios.delete(`${baseUrl}/${id}`);
 };
 
+const transfer = async (id, transferObj) => {
+  const response = await axios.put(`${baseUrl}/transfer/${id}`, transferObj);
+  return response.data;
+};
 
-export default { getAll, create, update, setToken, deleteBille };
+
+export default { getAll, create, update, setToken, deleteBille, transfer };

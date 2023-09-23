@@ -100,6 +100,7 @@ function ListaGastos({ gastosUsuario, setGastosUsuario, billeterasUsuario, setBi
     };
 
     if (nuevoGastoIng.monto != gastoIngAnt.monto) {
+      console.log(nuevoGastoIng)
       nuevaBilletera.monto = nuevaBilletera.monto + gastoIngAnt.monto - nuevoGastoIng.monto;
     }
 
@@ -108,8 +109,6 @@ function ListaGastos({ gastosUsuario, setGastosUsuario, billeterasUsuario, setBi
       antBilletera.monto += gastoIngAnt.monto
     }
 
-    console.log(nuevaBilletera.id)
-    console.log(antBilletera.id)
     setBilleterasUsuario(
       billeterasUsuario.map((bille) => {
         if (bille.id == nuevaBilletera.id) {

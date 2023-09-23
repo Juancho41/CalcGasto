@@ -96,4 +96,15 @@ router.put("/:id", billeteraFinder, async (req, res) => {
   }
 });
 
+router.put('/transfer/:id', billeteraFinder, async (req, res) => {
+  req.billetera.monto = (req.billetera.monto - req.body.monto);
+  await req.billetera.save();
+
+  const billeteraDestino = await Billetera.findByPk(req.body.billeDestino.id);
+  billeteraDestino.monto += Number(req.body.monto);
+  await billeteraDestino.save();
+
+  res.json(billeteraDestino);
+})
+
 module.exports = router;

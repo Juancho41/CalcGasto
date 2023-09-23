@@ -41,18 +41,18 @@ function ModificarGastosIngresos({ ingreso, gasto, editGasto, editIngreso, bille
     if (ingreso) {
       const nuevoGastoIng = {
         ...ingreso,
-        monto: montoEdit,
+        monto: Number(montoEdit),
         date: fechaEdit,
         comentario: comentarioEdit,
         categoria: categoriaEdit,
         billeteraId: cambioBilleId,
-        billetera: {nombre: origenEdit}
+        billetera: {nombre: destinoEdit}
       };
-      editIngreso(nuevoGastoIng, ingreso.billeteraId);
+      editIngreso(nuevoGastoIng, ingreso);
     } else {
       const nuevoGastoIng = {
         ...gasto,
-        monto: montoEdit,
+        monto: Number(montoEdit),
         date: fechaEdit,
         comentario: comentarioEdit,
         categoria: categoriaEdit,

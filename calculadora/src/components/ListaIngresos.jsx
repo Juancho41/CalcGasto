@@ -87,19 +87,28 @@ function ListaIngresos({ ingresosUsuario, setIngresosUsuario, billeterasUsuario,
   }
 
   //Funcion para actualizar las billeteras despues de cambiar ingreso de billetera
-  const updateBilleCamb = (idBilleNueva, idBilleAnt, ingreso) => {
-    const billeNueva = billeterasUsuario.find(bille => bille.id == idBilleNueva)
-    const billeAnt = billeterasUsuario.find(bille => bille.id == idBilleAnt)
+  const updateBilleCamb = (nuevoGastoIng, gastoIngAnt) => {
+    const billeNueva = billeterasUsuario.find(bille => bille.id == nuevoGastoIng.billeteraId)
+    const billeAnt = billeterasUsuario.find(bille => bille.id == gastoIngAnt.billeteraId)
 
     const nuevaBilletera = {
       ...billeNueva,
-      monto: (billeNueva.monto += parseInt(ingreso.monto)),
     };
 
     const antBilletera = {
       ...billeAnt,
-      monto: (billeAnt.monto -= parseInt(ingreso.monto)),
     };
+    console.log(gastoIngAnt)
+
+    if (nuevoGastoIng.monto != gastoIngAnt.monto) {
+
+      nuevaBilletera.monto = nuevaBilletera.monto - gastoIngAnt.monto + nuevoGastoIng.monto;
+    }
+
+    if (nuevoGastoIng.billeteraId != gastoIngAnt.billeteraId) {
+      nuevaBilletera.monto -= gastoIngAnt.monto
+      antBilletera.monto += gastoIngAnt.monto
+    }
 
     setBilleterasUsuario(
       billeterasUsuario.map((bille) => {
@@ -113,6 +122,7 @@ function ListaIngresos({ ingresosUsuario, setIngresosUsuario, billeterasUsuario,
 
       })
     );
+
   }
   // funcion para eliminar un ingreso
   const deleteIngreso = async (id) => {
@@ -122,10 +132,10 @@ function ListaIngresos({ ingresosUsuario, setIngresosUsuario, billeterasUsuario,
   };
 
   //funcion para modificar lista de ingresos
-  const editIngreso = async (nuevoGastoIng, idBilleAnt) => {
+  const editIngreso = async (nuevoGastoIng, gastoIngAnt) => {
     await ingresosService.update(nuevoGastoIng.id, nuevoGastoIng);
     setIngresosUsuario(ingresosUsuario.map(gasto => gasto.id == nuevoGastoIng.id ? nuevoGastoIng : gasto))
-    updateBilleCamb(nuevoGastoIng.billeteraId, idBilleAnt, nuevoGastoIng)
+    updateBilleCamb(nuevoGastoIng, gastoIngAnt)
   }
 
   const styles = {
